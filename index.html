@@ -1,0 +1,771 @@
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Formación IA · Reynasa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=Barlow:wght@400;500;600;700&display=swap">
+<style>
+/* Escenario 1280x720 sobre fondo negro. Diapositivas claras (papel frío) con el logo arriba a la derecha y la banda azul-rojo-naranja abajo;
+   las oscuras en azul noche con acentos naranja. Títulos en Barlow Condensed, texto en Barlow. */
+:root{--azul:#004A98;--azul-claro:#E6EEF8;--azul-noche:#061E3C;--azul-noche-2:#0C2C54;--rojo:#CE0E2D;--naranja:#FFA400;--negro:#0B0E13;
+--papel:#F3F5F8;--blanco:#FFFFFF;--tinta:#10151C;--tinta-suave:#4C5867;--linea:#D3DBE5;--tenue:#E7ECF2;--claro-osc:#EEF3F9;--suave-osc:#A8B9CF;
+--f-titulo:"Barlow Condensed","Arial Narrow",Arial,sans-serif;--f-texto:"Barlow","Segoe UI",Arial,sans-serif;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#05080C;overflow:hidden;font-family:var(--f-texto);-webkit-font-smoothing:antialiased}
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1280px;height:720px;position:absolute;left:50%;top:calc(50% - 23px);transform-origin:center center;box-shadow:0 40px 120px rgba(0,0,0,.6);overflow:hidden;background:var(--papel)}
+.slide{position:absolute;inset:0;background:var(--papel);color:var(--tinta);overflow:hidden;transform:translateX(100%);transition:transform .5s cubic-bezier(.65,0,.35,1);visibility:hidden}
+.slide.prev{transform:translateX(-100%)}
+.slide.active{transform:translateX(0);visibility:visible}
+.slide.anim{visibility:visible}
+.slide.dark{background:var(--azul-noche);color:var(--claro-osc)}
+.slide:before{content:"";position:absolute;left:0;right:0;bottom:0;height:8px;z-index:4;background:linear-gradient(90deg,var(--azul) 0 72%,var(--rojo) 72% 86%,var(--naranja) 86% 100%)}
+.slide:not(.s-cover):after{content:"";position:absolute;top:30px;right:52px;width:150px;height:40px;z-index:4;background:url(media/logo-reynasa.png) right center/contain no-repeat}
+.slide.dark:not(.s-cover):after{top:24px;right:46px;width:164px;height:50px;background-color:var(--blanco);background-position:center;background-size:132px auto;border-radius:8px}
+.pad{position:relative;height:100%;padding:44px 64px 64px;display:flex;flex-direction:column}
+.eyebrow{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--azul)}
+.eyebrow i{display:block;width:12px;height:12px;border-radius:50%;background:var(--rojo)}
+.dark .eyebrow{color:var(--naranja)}
+h1{margin-top:14px;font-family:var(--f-titulo);font-size:84px;line-height:.92;font-weight:800;letter-spacing:-.01em;text-transform:uppercase;text-wrap:balance}
+h2{margin:12px 0 24px;font-family:var(--f-titulo);font-size:48px;line-height:1;font-weight:700;letter-spacing:-.005em;max-width:1000px;text-wrap:balance}
+h1 em,h2 em{font-style:normal;color:var(--azul)}
+.dark h1 em,.dark h2 em,.s-cover h1 em{color:var(--naranja)}
+.s-cover{background:var(--negro)}
+.s-cover .bg{position:absolute;inset:0;background-size:auto 112%;background-position:right 40%;background-repeat:no-repeat}
+.s-cover .veil{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,16,30,1) 0%,rgba(6,16,30,.97) 34%,rgba(6,22,44,.8) 52%,rgba(6,22,44,.35) 72%,rgba(6,22,44,.2) 100%)}
+.cover{position:relative;height:100%;padding:0 64px;display:flex;flex-direction:column;justify-content:center;max-width:740px;color:var(--claro-osc)}
+.cover .eyebrow{color:var(--naranja)}
+.sub{margin-top:22px;font-size:21px;line-height:1.42;color:var(--suave-osc);max-width:620px}
+.alianza{margin-top:30px;display:flex;align-items:center;gap:16px;font-size:15px;color:var(--suave-osc);font-weight:600}
+.pill{background:var(--blanco);border-radius:8px;padding:9px 14px;display:inline-flex}.pill img{height:34px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:40px;flex:1;align-items:start;min-height:0}
+.cols>*{min-width:0}
+.cols.c2{grid-template-columns:600px 1fr;gap:34px}
+.cols.c3{grid-template-columns:1.25fr 1fr;gap:34px}
+blockquote{font-size:23px;line-height:1.38;font-weight:600;border-left:5px solid var(--rojo);padding:6px 0 6px 18px;margin-bottom:22px}
+.lista{list-style:none;display:grid;gap:12px}.lista li{position:relative;padding-left:24px;font-size:18px;line-height:1.4}
+.lista li:before{content:"";position:absolute;left:0;top:8px;width:10px;height:10px;border-radius:50%;background:var(--rojo)}
+.dark .lista li:before{background:var(--naranja)}
+.lista.grande li{font-size:21px}
+.dark .lista li{color:var(--claro-osc)}
+.vid{position:relative;border-radius:8px;overflow:hidden;background:#000;box-shadow:0 18px 50px rgba(6,30,60,.28);aspect-ratio:16/9;max-width:100%}
+.vid video{width:100%;height:100%;display:block;object-fit:contain;background:#000}
+.vid.grande{width:900px;margin:0 auto}
+.imp{display:none}
+.pie{margin-top:10px;font-size:14px;color:var(--tinta-suave)}
+.flujo{display:grid;grid-template-columns:1fr 34px 1fr 34px 1fr 34px 1fr;align-items:stretch;gap:8px;margin-top:6px}
+.caja{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.caja b{font-family:var(--f-titulo);font-size:22px;font-weight:700}.caja span{font-size:15px;line-height:1.45;color:var(--tinta-suave)}
+.caja.acento{background:var(--azul);border-color:var(--azul)}.caja.acento b,.caja.acento span{color:var(--blanco)}
+.flecha{display:grid;place-items:center;font-size:28px;color:var(--rojo);font-weight:800}
+.tres{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:30px}
+.tres div{background:var(--tenue);border-radius:8px;padding:16px;font-size:15px;line-height:1.45;color:var(--tinta-suave)}
+.tres b{display:block;font-family:var(--f-titulo);font-size:24px;font-weight:700;color:var(--tinta);margin-bottom:4px}
+.dark .tres div{background:var(--azul-noche-2);color:var(--suave-osc)}.dark .tres b{color:var(--blanco)}
+.caso h2{margin-bottom:16px}
+.ficha{display:flex;flex-direction:column;gap:12px}
+.ficha span{display:block;font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rojo);margin-bottom:4px}
+.enc{font-size:19px;font-weight:600;line-height:1.35}
+.bloque ul{list-style:none;display:grid;gap:5px}.bloque li{font-size:15px;line-height:1.4;padding-left:16px;position:relative;color:var(--tinta-suave)}
+.bloque li:before{content:"›";position:absolute;left:0;color:var(--azul);font-weight:800}
+.res{background:var(--azul-claro);border-radius:8px;padding:12px 14px;font-size:15.5px;line-height:1.4}
+.res span{color:var(--azul)}
+.prod{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.prod div{background:var(--azul-noche);color:var(--suave-osc);border-radius:8px;padding:10px 12px;font-size:12.5px;line-height:1.3}
+.prod b{display:block;color:var(--blanco);font-family:var(--f-titulo);font-size:24px;font-weight:700}
+.prod .libre{background:var(--naranja);color:var(--negro)}.prod .libre b{color:var(--negro)}
+.tabla{width:100%;border-collapse:collapse;font-size:14px}
+.tabla th{text-align:left;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--azul);padding:6px 8px;border-bottom:2px solid var(--azul)}
+.tabla td{padding:5px 8px;border-bottom:1px solid var(--linea)}
+.tabla td:nth-child(n+2){font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:700}
+.claves{display:grid;gap:12px}
+.claves div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:14px 16px;font-size:15px;line-height:1.45;color:var(--tinta-suave)}
+.claves b{display:block;color:var(--tinta);font-family:var(--f-titulo);font-size:22px;font-weight:700;margin-bottom:3px}
+.nota{font-size:12.5px;color:var(--tinta-suave)}
+.cita{font-family:var(--f-titulo);font-size:56px;font-weight:800;line-height:1;color:var(--azul);align-self:center;text-transform:uppercase}
+.foto{margin-top:14px;width:100%;max-height:250px;object-fit:cover;border-radius:8px}
+.enorme{font-size:66px;margin-top:36px;text-transform:uppercase;line-height:.95}
+.marcas{margin-top:auto;font-size:12.5px;color:var(--suave-osc)}
+#nav{position:fixed;bottom:11px;left:50%;transform:translateX(-50%);opacity:.85;transition:opacity .2s;display:flex;align-items:center;gap:12px;z-index:50;font:600 12px/1 var(--f-texto);color:#93A3B8;letter-spacing:.08em}
+#nav:hover{opacity:1}
+#nav button{all:unset;cursor:pointer;min-width:30px;height:30px;border-radius:15px;display:grid;place-items:center;background:#16212F;color:#DCE4EE;font-size:14px;padding:0 6px}
+#nav button:hover,#nav button:focus-visible{background:var(--azul);color:#fff}
+#nav button:focus-visible{outline:2px solid var(--naranja);outline-offset:2px}
+#counter{min-width:46px;text-align:center;font-variant-numeric:tabular-nums}
+#dots{display:flex;gap:6px;align-items:center}
+#dots i{display:block;width:8px;height:8px;border-radius:50%;background:#2B3A4D;cursor:pointer}
+#dots i.on{background:var(--naranja);transform:scale(1.25)}
+#hint{position:fixed;bottom:52px;left:50%;transform:translateX(-50%);z-index:50;background:rgba(6,20,40,.94);color:#E3EAF2;border:1px solid #20324A;padding:8px 16px;border-radius:999px;font:600 12.5px/1 var(--f-texto);transition:opacity .6s;pointer-events:none;white-space:nowrap}
+#hint b{color:var(--naranja)}#hint.off{opacity:0}
+@media (max-width:700px){#dots{display:none}#hint{font-size:11px}}
+@media (prefers-reduced-motion:reduce){.slide{transition:none}}
+@media print{@page{size:1280px 720px;margin:0}
+html,body{overflow:visible;height:auto;background:#fff}#viewport{position:static;display:block}#stage{position:static;transform:none!important;width:1280px;height:auto;box-shadow:none;overflow:visible}
+.slide{position:relative;transform:none!important;visibility:visible!important;width:1280px;height:720px;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+#nav,#hint{display:none}.vid video{display:none}.imp{display:block;width:100%;height:100%;object-fit:contain;background:#000}}
+
+.pn1{display:grid;grid-template-columns:690px 1fr;gap:26px;flex:1;min-height:0;align-items:start}
+.pn1>*{min-width:0}
+.pn1 .pie{margin-top:8px}.pn1 .pie a{color:var(--azul);font-weight:700}
+.pn-der{display:flex;flex-direction:column;gap:8px}
+.pn-h{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rojo)}
+.fuentes{list-style:none;display:grid;gap:5px}
+.fuentes li{position:relative;padding-left:15px;font-size:15px;line-height:1.32;color:var(--tinta-suave)}
+.fuentes li:before{content:"";position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--azul)}
+.fuentes b{color:var(--tinta)}
+.rutina{margin-top:6px;background:var(--azul-noche);border-radius:8px;padding:14px 18px;display:grid;gap:6px}
+.rutina b{font-family:var(--f-titulo);font-size:24px;line-height:1.05;font-weight:700;color:var(--naranja)}
+.rutina p{font-size:14.5px;line-height:1.38;color:var(--suave-osc)}
+.rutina strong{color:var(--blanco)}
+.pn-der .sello{margin-top:6px}
+.pn2{display:grid;grid-template-columns:1fr 196px;gap:16px;flex:1;min-height:0}
+.pn2>*{min-width:0}
+.pestanas{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);gap:8px}
+.pestanas div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:7px 12px 8px;display:flex;flex-direction:column;justify-content:center;min-width:0}
+.pestanas span{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rojo)}
+.pestanas b{font-family:var(--f-titulo);font-size:27px;line-height:1.05;font-weight:800;color:var(--azul);font-variant-numeric:tabular-nums}
+.pestanas p{font-size:13.5px;line-height:1.3;color:var(--tinta-suave)}
+.miniaturas{display:grid;gap:8px;align-content:start}
+.miniaturas .zoom:after{content:"⤢";padding:3px 7px}
+.pn2+.remate{margin-top:10px;padding:10px 20px}
+.pn2+.remate b{font-size:27px}.pn2+.remate p{font-size:14.5px;line-height:1.36}
+.zonas{display:grid;grid-template-columns:1fr 1fr 1.3fr;gap:16px}
+.zonas>div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:22px 24px;display:flex;flex-direction:column;gap:10px}
+.zonas>div.si{background:var(--azul);border-color:var(--azul);color:var(--blanco)}
+.zonas>div.no{border:2px solid var(--rojo)}
+.zonas .si .via{color:var(--naranja)}
+.zonas b{font-family:var(--f-titulo);font-size:31px;line-height:1.05;font-weight:700}
+.zonas p{font-size:17px;line-height:1.45;color:var(--tinta-suave)}
+.zonas .si p{color:var(--azul-claro)}
+.uds{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.uds li{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--tenue);border-radius:5px;padding:7px 10px;font-size:15.5px;font-weight:600}
+.uds i{font-style:normal;font-family:var(--f-titulo);font-weight:800;color:var(--rojo)}
+.porque{list-style:none;display:grid;gap:6px}
+.porque li{position:relative;padding-left:18px;font-size:15.5px;line-height:1.4;color:var(--tinta-suave)}
+.porque li:before{content:"";position:absolute;left:0;top:7px;width:9px;height:9px;border-radius:50%;background:var(--rojo)}
+.zonas .porque b{font-family:var(--f-texto);font-size:15.5px;color:var(--tinta)}
+.sello.rojo{background:var(--rojo);color:var(--blanco)}
+.pasos3{margin-top:22px;display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:14px;align-items:center;background:var(--azul-noche);border-radius:8px;padding:20px 24px}
+.pasos3 div{display:flex;gap:12px;align-items:center;font-size:18px;line-height:1.38;color:var(--claro-osc)}
+.pasos3 b{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;background:var(--naranja);color:var(--negro);font-family:var(--f-titulo);font-size:19px}
+.pasos3 strong{color:var(--naranja)}
+.pasos3>span{font-size:24px;color:var(--naranja)}
+.sep .pad{justify-content:center}
+.sep .num{position:absolute;right:52px;bottom:30px;font-family:var(--f-titulo);font-size:320px;line-height:.8;font-weight:800;color:var(--azul-noche-2);pointer-events:none}
+.sep h2{position:relative;font-size:76px;line-height:.95;text-transform:uppercase;max-width:900px}
+.sep .sub{position:relative;margin-top:0;max-width:760px}
+.sep .frase{position:relative;margin-top:26px;font-family:var(--f-titulo);font-size:32px;font-weight:700;color:var(--blanco)}
+.sep .frase em{font-style:normal;color:var(--naranja)}
+.sw{position:absolute;right:64px;bottom:20px;display:flex;gap:6px;align-items:center;font-size:12px;font-weight:700;color:var(--tinta-suave);z-index:5}
+.sw span{margin-right:4px;letter-spacing:.06em;text-transform:uppercase}
+.sw button{all:unset;cursor:pointer;padding:5px 10px;border-radius:6px;border:1px solid var(--linea);background:var(--blanco);color:var(--tinta)}
+.sw button.on{background:var(--azul);border-color:var(--azul);color:var(--blanco)}
+.sw button:focus-visible{outline:2px solid var(--naranja);outline-offset:2px}
+.sw.grande{position:relative;right:auto;bottom:auto;margin-top:34px;font-size:15px;color:var(--suave-osc)}
+.sw.grande button{padding:10px 18px;font-size:16px;background:var(--azul-noche-2);border-color:#23446E;color:var(--blanco)}
+.sw.grande button.on{background:var(--naranja);border-color:var(--naranja);color:var(--negro)}
+.cc-img{display:grid;grid-template-columns:790px 1fr;gap:28px;flex:1;min-height:0;align-items:start}
+.cc-img>*{min-width:0}
+.zoom{position:relative;cursor:zoom-in;border-radius:8px;overflow:hidden;border:1px solid var(--linea);background:var(--blanco);box-shadow:0 14px 40px rgba(6,30,60,.16)}
+.zoom img{display:block;width:100%;height:auto}
+.zoom:after{content:"⤢ Ampliar";position:absolute;right:8px;bottom:8px;background:rgba(6,30,60,.86);color:var(--blanco);font-size:12px;font-weight:700;padding:4px 8px;border-radius:5px}
+.ideas{list-style:none;display:grid;gap:14px}
+.ideas li{position:relative;padding-left:22px;font-size:16.5px;line-height:1.42;color:var(--tinta-suave)}
+.ideas li:before{content:"";position:absolute;left:0;top:8px;width:10px;height:10px;border-radius:50%;background:var(--rojo)}
+.ideas b{color:var(--tinta)}
+.tabla.cc,.tabla.cw{font-size:15px}
+.tabla.cc th,.tabla.cw th{font-size:12px}
+.tabla.cc td,.tabla.cw td{padding:7px 10px;vertical-align:top}
+.tabla.cc td:nth-child(n+2),.tabla.cw td:nth-child(n+2){white-space:normal;font-weight:400}
+.tabla.cc td:first-child,.tabla.cw td:first-child{font-weight:700;width:200px}
+.tabla.cc td:nth-child(2){color:var(--tinta-suave);width:330px}
+.tabla.cc td:nth-child(3),.tabla.cw td:nth-child(2){color:var(--azul);font-weight:600}
+.tabla.cw td{padding:9px 10px}
+.tabla.cw td:first-child{width:240px}
+.fuente{margin-top:12px}
+.linea{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.hito{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:5px}
+.hito .n{display:flex;align-items:center;gap:8px;font-family:var(--f-titulo);font-weight:800;font-size:24px;line-height:1;color:var(--azul)}
+.hito .n small{font-family:var(--f-texto);font-size:12px;font-weight:700;background:var(--naranja);color:var(--negro);padding:3px 7px;border-radius:4px}
+.hito b{font-size:16px;line-height:1.2}
+.hito p{font-size:13.5px;line-height:1.38;color:var(--tinta-suave)}
+.remate{margin-top:14px;background:var(--azul-noche);color:var(--claro-osc);border-radius:8px;padding:14px 20px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.remate b{font-family:var(--f-titulo);font-size:34px;font-weight:800;color:var(--naranja);white-space:nowrap}
+.remate p{font-size:15.5px;line-height:1.4}
+.falta{display:grid;grid-template-columns:1.55fr 1fr;gap:26px;align-items:start}
+.falta .claves{grid-template-columns:1fr 1fr}
+.humano{background:var(--azul);color:var(--blanco);border-radius:8px;padding:22px 24px}
+.humano span{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--naranja)}
+.humano ol{margin:14px 0 14px 26px;display:grid;gap:8px;font-family:var(--f-titulo);font-size:32px;font-weight:700;line-height:1.05}
+.humano p{font-size:16px;line-height:1.4;color:var(--azul-claro)}
+.repaso{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+.repaso .cuatro{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.repaso .cuatro .zoom:after{content:"⤢";padding:3px 7px}
+.repaso+.nota{margin-top:12px}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
+.lado-cc{background:var(--azul);color:var(--blanco);border-radius:8px;padding:20px 24px}
+.lado-cw{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:20px 24px}
+.dos h3{font-family:var(--f-titulo);font-size:28px;font-weight:700;line-height:1.05;margin-bottom:14px}
+.dos h4{margin:18px 0 10px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rojo)}
+.dos .lista{gap:9px}.dos .lista li{font-size:16px}
+.lado-cc .lista li:before{background:var(--naranja)}
+.lado-cw .lista.lim li:before{background:var(--tinta-suave)}
+.kpis5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.kpis5 div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:14px 16px}
+.kpis5 b{display:block;font-family:var(--f-titulo);font-size:52px;line-height:1;font-weight:800;color:var(--azul);font-variant-numeric:tabular-nums}
+.kpis5 span{display:block;margin-top:4px;font-size:14.5px;line-height:1.3;color:var(--tinta-suave)}
+.dias{margin-top:18px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.dias div{background:var(--azul-noche);color:var(--claro-osc);border-radius:8px;padding:16px 18px}
+.dias span{font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--naranja)}
+.dias b{display:block;font-family:var(--f-titulo);font-size:26px;font-weight:700;color:var(--blanco);margin:4px 0 6px}
+.dias p{font-size:15px;line-height:1.4;color:var(--suave-osc)}
+.dias+.nota{margin-top:14px}
+.seis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.seis div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:14px 18px 16px;font-size:15px;line-height:1.4;color:var(--tinta-suave)}
+.seis b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--azul);color:var(--blanco);font-family:var(--f-titulo);font-size:18px;margin-bottom:6px}
+.seis strong{display:block;font-family:var(--f-titulo);font-size:23px;font-weight:700;color:var(--tinta);margin-bottom:2px}
+.cita-h{margin-top:18px;background:var(--naranja);border-radius:8px;padding:16px 22px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.cita-h q{font-family:var(--f-titulo);font-size:27px;font-weight:700;line-height:1.15;color:var(--negro)}
+.cita-h q:before{content:"«"}.cita-h q:after{content:"»"}
+.cita-h span{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--negro)}
+.area-h{display:block;font-family:var(--f-texto);font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rojo);margin-bottom:4px}
+.tabla.hugo{font-size:15px}.tabla.hugo th{white-space:nowrap}.tabla.hugo td{padding:9px 8px}
+.tabla.hugo td:nth-child(2){white-space:normal}
+.tabla.hugo td:nth-child(4){color:var(--tinta-suave);font-weight:400}
+.nuevas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.nuevas div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:16px 18px;font-size:15.5px;line-height:1.42;color:var(--tinta-suave)}
+.nuevas b{display:block;font-family:var(--f-titulo);font-size:24px;font-weight:700;line-height:1.05;color:var(--azul);margin-bottom:6px}
+.nuevas.lecc b{color:var(--tinta)}
+.citas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.citas div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.citas q{font-family:var(--f-titulo);font-size:28px;font-weight:700;line-height:1.1;color:var(--azul)}
+.citas q:before{content:"«"}.citas q:after{content:"»"}
+.citas span{font-size:13.5px;line-height:1.35;color:var(--tinta-suave)}
+.citas .resumen-h{background:var(--azul);border-color:var(--azul);color:var(--blanco);font-family:var(--f-titulo);font-size:26px;font-weight:700;line-height:1.1}
+.resumen-h b{font-family:var(--f-texto);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--naranja)}
+.citas+.nota{margin-top:14px}
+.audio{position:relative;margin-top:28px;display:flex;align-items:center;gap:16px;background:var(--azul-noche-2);border:1px solid #23446E;border-radius:8px;padding:12px 16px;max-width:760px}
+.audio span{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--naranja);white-space:nowrap}
+.audio audio{flex:1;min-width:0;height:36px}
+.tres-vias{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tres-vias>div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.tres-vias>div.si{background:var(--azul);border-color:var(--azul);color:var(--blanco)}
+.via{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rojo)}
+.tres-vias .si .via{color:var(--naranja)}
+.tres-vias b{font-family:var(--f-titulo);font-size:27px;line-height:1.05;font-weight:700}
+.tres-vias p{font-size:15.5px;line-height:1.45;color:var(--tinta-suave)}
+.tres-vias .si p{color:var(--azul-claro)}
+.sello{margin-top:auto;align-self:flex-start;font-style:normal;font-size:13px;font-weight:700;padding:6px 10px;border-radius:6px}
+.sello.no{background:var(--tenue);color:var(--tinta)}.sello.duda{background:#FFF1D6;color:#7A4E00}.sello.ok{background:var(--naranja);color:var(--negro)}
+.tres-vias+.nota{margin-top:16px}
+.orden{margin:0;background:var(--negro);color:#E8EEF6;border-radius:8px;padding:20px 22px;font:500 16.5px/1.55 Consolas,"Cascadia Mono",monospace;white-space:pre-wrap;border-left:5px solid var(--naranja)}
+@media print{.audio{display:none}}
+.tabla.prue{font-size:15px}.tabla.prue td{padding:9px 8px}.tabla.prue td:nth-child(n+2){white-space:normal}
+.tabla.prue tr:nth-child(6) td{color:var(--rojo)}
+.tabla.prue+.nota{margin-top:12px}
+.gantt{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:18px 20px}
+.gantt h3{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rojo);margin-bottom:12px}
+.gfila{display:grid;grid-template-columns:34px 1fr;gap:10px;align-items:center;margin-bottom:8px}
+.gfila span{font-family:var(--f-titulo);font-weight:700;font-size:18px}
+.gpista{position:relative;height:26px;background:var(--tenue);border-radius:4px}
+.gpista i{position:absolute;top:0;bottom:0;background:var(--azul);border-radius:4px}
+.geje{display:flex;justify-content:space-between;margin:4px 0 0 44px;font-size:12px;color:var(--tinta-suave)}
+.gantt p{margin-top:12px;font-size:14.5px;line-height:1.4;color:var(--tinta-suave)}
+.g27{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.g27 .gantt{padding:14px 18px}.g27 .gantt h3{margin-bottom:8px}
+.gfila.g4{grid-template-columns:74px 1fr;margin-bottom:6px}.gfila.g4 span{font-size:15px}.g4 .gpista{height:20px}
+.geje.g4{margin-left:84px}
+.g27.abajo{margin-top:14px;grid-template-columns:1.05fr 1fr;align-items:start}
+.g27.abajo .lista{gap:8px}.g27.abajo .lista li{font-size:15px;line-height:1.38}
+.g27.abajo .tabla.prue td{padding:6px 8px}.g27.abajo .nota{margin-top:8px;font-size:13px}
+.tabla.tri{font-size:14px}.tabla.tri th{font-size:11.5px;white-space:normal}
+.tabla.tri td{padding:6px 9px;vertical-align:top;white-space:normal;font-weight:400;line-height:1.3}
+.tabla.tri td:first-child{font-weight:700;width:170px}
+.tabla.tri td:nth-child(2){color:var(--tinta-suave)}
+.tabla.tri td:nth-child(3),.tabla.tri td:nth-child(4){color:var(--azul);font-weight:600}
+.tabla.tri+.nota{margin-top:10px}
+.bajar{position:absolute;top:24px;right:228px;z-index:6;display:flex;flex-direction:column;align-items:flex-start;gap:1px;padding:9px 16px 9px 44px;border-radius:8px;background:var(--naranja);color:var(--negro);text-decoration:none;box-shadow:0 6px 18px rgba(6,30,60,.18)}
+.bajar:before{content:"↓";position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:22px;font-weight:800}
+.bajar b{font-family:var(--f-titulo);font-size:18px;font-weight:700;line-height:1.1}
+.bajar small{font-size:11.5px;font-weight:600;opacity:.8}
+.bajar:hover{background:#FFB733}
+.bajar:focus-visible{outline:3px solid var(--azul);outline-offset:3px}
+.bajar.grande{position:relative;top:auto;right:auto;padding:26px 30px 26px 82px;gap:6px}
+.bajar.grande:before{left:28px;font-size:40px}
+.bajar.grande b{font-size:30px}
+.bajar.grande small{font-size:14px;line-height:1.35}
+.preg{margin-top:22px;display:flex;flex-direction:column;gap:10px}
+.preg6{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.preg6 div{display:flex;align-items:center;gap:12px;background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:12px 16px;font-size:17px;font-weight:600;line-height:1.3;color:var(--tinta)}
+.preg6 b{flex:none;display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--azul);color:var(--blanco);font-family:var(--f-titulo);font-size:17px}
+.ejemplos{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+.ej4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.ej4 div{background:var(--blanco);border:1px solid var(--linea);border-top:4px solid var(--azul);border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.ej4 i{font-style:normal;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--rojo)}
+.ej4 b{font-family:var(--f-titulo);font-size:19px;font-weight:700;line-height:1.1;color:var(--azul)}
+.ej4 p{font-size:14.5px;line-height:1.38;color:var(--tinta-suave)}
+.instala{display:grid;grid-template-columns:1.35fr 1fr;gap:30px;align-items:center}
+.pasos-i{display:grid;gap:12px}
+.pasos-i div{display:flex;gap:14px;align-items:center;background:var(--azul-noche-2);border:1px solid #23446E;border-radius:8px;padding:14px 18px}
+.pasos-i b{flex:none;display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--naranja);color:var(--negro);font-family:var(--f-titulo);font-size:20px}
+.pasos-i p{font-size:18px;line-height:1.38;color:var(--claro-osc)}
+.pasos-i strong{color:var(--blanco)}
+.normas-sk{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+.normas-sk .via{color:var(--naranja)}
+.normas-sk ul{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.normas-sk li{position:relative;padding:9px 12px 9px 32px;border-radius:6px;background:var(--azul-noche-2);font-size:15px;font-weight:600;color:var(--blanco)}
+.normas-sk li:before{content:"✓";position:absolute;left:12px;top:8px;color:var(--naranja);font-weight:800}
+@media print{.bajar{box-shadow:none}}
+.mem3>div{gap:7px}
+.mem3 code{font:600 13px/1.3 Consolas,"Cascadia Mono",monospace;background:var(--tenue);color:var(--tinta);padding:5px 8px;border-radius:5px;word-break:break-all}
+.mem3 .si code{background:var(--azul-noche);color:var(--blanco)}
+.mem3+.remate{margin-top:16px}
+.mem3 p{font-size:17px}
+.ej-mem{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ej-mem .via{grid-column:1/-1;margin-bottom:-6px}
+.ej-mem div{border-left:4px solid var(--azul);padding:4px 0 4px 14px}
+.ej-mem b{display:block;font-family:var(--f-titulo);font-size:30px;font-weight:800;line-height:1;color:var(--azul)}
+.ej-mem p{margin-top:4px;font-size:15px;line-height:1.4;color:var(--tinta-suave)}
+.mem2{display:grid;grid-template-columns:1.5fr 1fr;gap:28px;align-items:start}
+.mem2>*{min-width:0}
+.frase-mem{display:flex;flex-direction:column;gap:14px}
+.frase-mem .orden{font-size:17px;cursor:text;user-select:text}
+.copiar{all:unset;cursor:pointer;position:relative;align-self:flex-start;display:flex;flex-direction:column;gap:1px;padding:12px 22px 12px 54px;border-radius:8px;background:var(--naranja);color:var(--negro)}
+.copiar:before{content:"⧉";position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:24px;font-weight:800}
+.copiar b{font-family:var(--f-titulo);font-size:22px;font-weight:700;line-height:1.1}
+.copiar small{font-size:12.5px;font-weight:600;opacity:.8}
+.copiar:hover{background:#FFB733}
+.copiar:focus-visible{outline:3px solid var(--blanco);outline-offset:3px}
+.copiar.ok{background:#3FB37F}
+.claves-mem{list-style:none;display:grid;gap:12px}
+.claves-mem li{background:var(--azul-noche-2);border:1px solid #23446E;border-radius:8px;padding:12px 16px;font-size:16px;line-height:1.4;color:var(--claro-osc)}
+.claves-mem b{display:block;font-family:var(--f-titulo);font-size:21px;font-weight:700;color:var(--naranja);margin-bottom:2px}
+@media print{.copiar{display:none}}
+#lb{position:fixed;inset:0;z-index:100;background:rgba(3,8,14,.95);display:grid;place-items:center;padding:16px;cursor:zoom-out}
+#lb[hidden]{display:none}
+#lb img{max-width:100%;max-height:100%;object-fit:contain}
+@media print{.sw,#lb{display:none!important}.zoom:after{display:none}}
+
+.n8{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.n8 div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:12px 16px 14px;display:flex;flex-direction:column;gap:4px}
+.n8 b{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--azul);color:var(--blanco);font-family:var(--f-titulo);font-size:18px}
+.n8 strong{font-family:var(--f-titulo);font-size:23px;line-height:1.05;font-weight:700;color:var(--tinta)}
+.n8 p{font-size:14.5px;line-height:1.38;color:var(--tinta-suave)}
+.n8 div:first-child{border:2px solid var(--rojo)}.n8 div:first-child b{background:var(--rojo)}
+.aviso-n{margin-top:16px;background:var(--azul-noche);border-radius:8px;padding:14px 20px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.aviso-n q{font-family:var(--f-titulo);font-size:25px;font-weight:700;color:var(--naranja);quotes:"«" "»"}
+.aviso-n span{font-size:15px;line-height:1.4;color:var(--claro-osc)}
+.aviso-n+.nota{margin-top:10px}
+.seg4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.seg4 div{background:var(--blanco);border:1px solid var(--linea);border-top:5px solid var(--azul);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:8px}
+.seg4 strong{font-family:var(--f-titulo);font-size:26px;line-height:1.05;font-weight:700}
+.seg4 p{font-size:15.5px;line-height:1.42;color:var(--tinta-suave)}
+.ciclo{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ciclo div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:14px 16px;font-size:15px;line-height:1.4;color:var(--tinta-suave)}
+.ciclo b{display:block;font-family:var(--f-titulo);font-size:26px;font-weight:700;color:var(--azul);margin-bottom:2px}
+.ciclo .sello{grid-column:1/-1;margin-top:6px;font-size:15px;padding:10px 14px}
+.vid2{display:grid;grid-template-columns:1fr 1fr;gap:26px;flex:1;min-height:0}
+.vid2>div{min-width:0}
+.pie-v{margin-top:10px;font-size:16px;line-height:1.4;color:var(--tinta-suave)}.pie-v b{color:var(--tinta)}
+.flujo.f5{grid-template-columns:1fr 28px 1fr 28px 1fr 28px 1fr 28px 1fr}
+.flujo.f5 .caja{padding:14px}.flujo.f5 .caja b{font-size:20px}.flujo.f5 .caja span{font-size:14.5px}
+.flujo+.remate,.flujo+.claves{margin-top:22px}
+.claves.c3x{grid-template-columns:repeat(3,1fr)}
+.rut3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.rut3 div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.rut3 span{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--rojo)}
+.rut3 b{font-family:var(--f-titulo);font-size:28px;font-weight:700;line-height:1.05;color:var(--azul)}
+.rut3 p{font-size:15.5px;line-height:1.42;color:var(--tinta-suave)}
+.kpi2{margin-top:18px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.kpi2 div{background:var(--azul-noche);border-radius:8px;padding:16px 20px;display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center}
+.kpi2 b{font-family:var(--f-titulo);font-size:56px;line-height:1;font-weight:800;color:var(--naranja);font-variant-numeric:tabular-nums}
+.kpi2 p{font-size:16px;line-height:1.4;color:var(--claro-osc)}
+.kpi2+.nota{margin-top:10px}
+.crea{display:grid;grid-template-columns:1.1fr 1fr;gap:28px;align-items:start}
+.crea>*{min-width:0}
+.crea .via{display:block;margin-bottom:10px}
+.preg6.p2{grid-template-columns:1fr 1fr}
+.crea .nota{margin-top:12px}
+.crea-der{display:flex;flex-direction:column;gap:16px}
+.crea-der .bajar.grande{padding:20px 26px 20px 76px}.crea-der .bajar.grande b{font-size:26px}
+.dep6{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.dep6>div{background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:12px 16px}
+.dep6 .via{display:block;font-size:13px;margin-bottom:6px}
+.dep6 ul{list-style:none;display:grid;gap:5px}
+.dep6 li{position:relative;padding-left:14px;font-size:14.5px;line-height:1.35;color:var(--tinta)}
+.dep6 li:before{content:"›";position:absolute;left:0;color:var(--azul);font-weight:800}
+.dep6 li i{font-style:normal;font-size:11px;font-weight:700;background:var(--naranja);color:var(--negro);padding:1px 6px;border-radius:4px;margin-left:4px;white-space:nowrap}
+.dep6+.nota{margin-top:12px}
+.tabla.uso{font-size:18px;margin-top:4px}
+.tabla.uso th{color:var(--naranja);border-bottom-color:var(--naranja)}
+.tabla.uso td{padding:11px 10px;border-bottom:1px solid #23446E;color:var(--claro-osc);white-space:normal}
+.tabla.uso td:nth-child(2){font-family:var(--f-titulo);font-size:24px;color:var(--naranja);white-space:nowrap}
+.tabla.uso td:nth-child(3){font-weight:400;color:var(--suave-osc);font-size:15.5px}
+.fin-frase{margin-top:26px;font-family:var(--f-titulo);font-size:44px;font-weight:800;line-height:1;text-transform:uppercase;color:var(--blanco)}
+.fin-frase em{font-style:normal;color:var(--naranja)}
+.ext4{grid-template-columns:1fr;gap:10px}.ext4 div{padding:12px 16px;font-size:15.5px}.ext4 b{font-size:22px}.ext4 .sello{margin-top:4px;font-size:14px;padding:8px 12px}
+.frase-mem .orden{font-size:14.5px;line-height:1.5;padding:16px 20px}
+.mapa{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+.fase{all:unset;cursor:pointer;position:relative;background:var(--blanco);border:1px solid var(--linea);border-radius:8px;padding:9px 12px 10px;display:flex;flex-direction:column;gap:2px}
+.fase b{font-family:var(--f-titulo);font-size:26px;line-height:1;font-weight:800;color:var(--azul)}
+.fase strong{font-family:var(--f-titulo);font-size:19px;line-height:1.05;font-weight:700;color:var(--tinta)}
+.fase small{font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta-suave)}
+.fase.tu{border:2px solid var(--naranja)}.fase.tu small{color:#B26F00}
+.fase:hover{border-color:var(--azul)}
+.fase.on{background:var(--azul);border-color:var(--azul)}.fase.on b,.fase.on strong{color:var(--blanco)}.fase.on small{color:var(--naranja)}
+.fase:focus-visible{outline:3px solid var(--naranja);outline-offset:2px}
+.detalle{margin-top:12px;flex:1;min-height:0}
+.det{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;background:var(--azul-noche);border-radius:8px;padding:16px 20px;height:100%}
+.det[hidden]{display:none}
+.det .via{display:block;color:var(--naranja);margin-bottom:8px}
+.det ul{list-style:none;display:grid;gap:7px}
+.det li{position:relative;padding-left:16px;font-size:17.5px;line-height:1.42;color:var(--claro-osc)}
+.det ul{gap:10px}
+.det li:before{content:"›";position:absolute;left:0;color:var(--naranja);font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.chips .via{width:100%}
+.chips i,.sk3 i{font-style:normal;font:600 13px/1.2 Consolas,"Cascadia Mono",monospace;background:var(--azul-noche-2);color:var(--blanco);border:1px solid #23446E;border-radius:5px;padding:5px 8px}
+.detalle+.nota{margin-top:8px}
+.sk3{display:grid;grid-template-columns:1.25fr 1.1fr 1fr;gap:12px}
+.sk3>div{background:var(--azul-noche);border-radius:8px;padding:14px 16px;display:flex;flex-wrap:wrap;gap:6px;align-content:flex-start}
+.sk3 .via{width:100%;color:var(--naranja);margin-bottom:2px}
+.sk3.yt{grid-template-columns:1.05fr .8fr 1.35fr}
+.reglas{margin-top:14px}
+.reglas ul{list-style:none;margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:7px 16px}
+.reglas li{position:relative;padding:8px 12px 8px 32px;background:var(--blanco);border:1px solid var(--linea);border-radius:6px;font-size:15px;font-weight:600;color:var(--tinta)}
+.reglas li:before{content:"✓";position:absolute;left:12px;top:7px;color:var(--azul);font-weight:800}
+.tabla.cvc{font-size:16px}
+.tabla.cvc th{font-size:12px}
+.tabla.cvc td{padding:10px 10px;white-space:normal;vertical-align:top;line-height:1.3}
+.tabla.cvc td:first-child{font-weight:700;width:330px}
+.tabla.cvc td:nth-child(2){color:var(--rojo);font-weight:600;width:300px}
+.tabla.cvc td:nth-child(3){color:var(--azul);font-weight:700;width:250px}
+.tabla.cvc td:nth-child(4){color:var(--tinta-suave);font-weight:400;font-size:14px}
+.inst2{display:grid;grid-template-columns:1fr 1fr;gap:26px;flex:1;min-height:0}
+.inst{display:flex;flex-direction:column;gap:9px;min-width:0}
+.url{align-self:flex-start;font-family:var(--f-titulo);font-size:30px;font-weight:700;line-height:1;color:var(--azul);text-decoration:none;border-bottom:3px solid var(--naranja);padding-bottom:2px}
+.url:hover{color:var(--rojo)}
+.inst .zoom:after{content:"⤢";padding:3px 7px}
+.dos-img{display:grid;gap:8px}
+.inst ol{margin:4px 0 0 22px;display:grid;gap:4px;font-size:15px;line-height:1.36;color:var(--tinta-suave)}
+.inst ol b{color:var(--tinta)}
+.hito-p{margin-top:24px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:rgba(12,44,84,.88);border:1px solid #23446E;border-left:5px solid var(--naranja);border-radius:8px;padding:14px 20px;max-width:640px}
+.hito-p>b{font-family:var(--f-titulo);font-size:62px;line-height:1;font-weight:800;color:var(--naranja);font-variant-numeric:tabular-nums}
+.hito-p strong{display:block;font-family:var(--f-titulo);font-size:22px;line-height:1.1;font-weight:700;color:var(--blanco)}
+.hito-p p{margin-top:5px;font-size:14.5px;line-height:1.4;color:var(--suave-osc)}
+.s-cover .hito-p+.alianza{margin-top:22px}
+.s-cover h1{font-size:64px}.s-cover .sub{font-size:18.5px;margin-top:18px}
+/* Diapositivas con poco contenido: el bloque se centra en el hueco que queda bajo el título y la letra crece */
+.centro .pad>h2+*{margin-top:auto}
+.centro .pad>*:last-child{margin-bottom:auto}
+.centro .cols,.centro .vid2{flex:none}
+.centro .seg4 div{padding:22px;min-height:210px}.centro .seg4 strong{font-size:30px}.centro .seg4 p{font-size:18px}
+.centro .pasos3{margin-top:26px}.centro .pasos3 div{font-size:19px}
+.centro .ciclo div{font-size:17px;padding:18px 20px}.centro .ciclo b{font-size:32px}
+.centro .dos h3{font-size:31px}.centro .lado-cc,.centro .lado-cw{padding:24px 28px}.centro .dos .lista{gap:12px}.centro .dos .lista li{font-size:18.5px}
+.centro .remate{margin-top:22px}.centro .remate p{font-size:17.5px}
+.centro .flujo .caja{padding:20px 18px}.centro .flujo .caja b{font-size:24px}.centro .flujo .caja span{font-size:16.5px}
+.centro .flujo.f5 .caja b{font-size:22px}.centro .flujo.f5 .caja span{font-size:16px}
+.centro .claves.c3x div{font-size:16.5px;padding:18px 20px}.centro .claves.c3x b{font-size:25px}
+.centro .rut3 div{padding:20px 22px}.centro .rut3 b{font-size:32px}.centro .rut3 p{font-size:17px}
+.centro .kpi2 b{font-size:66px}.centro .kpi2 p{font-size:18px}
+.centro .preg6 div{font-size:18.5px;padding:15px 18px}.centro .pasos-i p{font-size:19px}
+.cols.cv{grid-template-columns:680px 1fr;gap:30px;align-items:center}
+.centro .enc{font-size:21px}.centro .bloque li{font-size:16.5px}.centro .res{font-size:16.5px}.centro .prod b{font-size:26px}
+.aprende{list-style:none;margin-top:12px;display:grid;gap:8px}
+.aprende li{position:relative;padding:9px 14px 9px 38px;background:var(--blanco);border:1px solid var(--linea);border-radius:8px;font-size:16px;font-weight:600;color:var(--tinta)}
+.aprende li:before{content:"✓";position:absolute;left:14px;top:8px;color:var(--azul);font-weight:800}
+.partes{margin-top:18px;display:flex;gap:10px}
+.partes span{display:flex;align-items:center;gap:10px;background:rgba(12,44,84,.88);border:1px solid #23446E;border-radius:6px;padding:6px 14px 6px 6px;font-family:var(--f-titulo);font-size:20px;font-weight:700;color:var(--blanco)}
+.partes b{display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--naranja);color:var(--negro);font-size:17px}
+.s-cover .partes+.alianza{margin-top:18px}
+.pdx{display:grid;gap:8px}
+.pdx .cab,.pdx .fila{display:grid;grid-template-columns:260px 300px 1fr;gap:18px}
+.pdx .cab .via{font-size:12.5px}
+.pdx .fila>div{position:relative;border-radius:8px;padding:10px 14px;display:flex;flex-direction:column;justify-content:center}
+.pdx .pq{background:var(--blanco);border:1px solid var(--linea);font-weight:700;font-size:16.5px;line-height:1.25;color:var(--tinta)}
+.pdx .rs{background:var(--blanco);border:1px solid var(--linea);border-left:5px solid var(--naranja);font-size:16.5px;line-height:1.3;color:var(--tinta)}
+.pdx .pq:after,.pdx .rs:after{content:"→";position:absolute;right:-15px;top:50%;transform:translateY(-50%);color:var(--azul);font-weight:800;font-size:16px}
+.pdx .md{background:var(--azul-noche);font:600 14px/1.38 Consolas,"Cascadia Mono",monospace;color:var(--claro-osc)}
+.pdx .md b{font-family:var(--f-titulo);font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--naranja);margin-bottom:2px}
+.pdx+.remate{margin-top:16px}
+/* Versión 3 */
+.fz .pdx{gap:7px}.fz .pdx .fila>div{padding:8px 14px}.fz .pdx .pq,.fz .pdx .rs{font-size:16px}
+.fz .pdx .md{font-size:13.5px;line-height:1.34}.fz .pdx .md b{font-size:14.5px}
+.banda{margin-top:14px;display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;background:var(--azul-noche);border-radius:8px;padding:12px 14px 12px 20px}
+.banda>.via{color:var(--naranja);font-size:13px;line-height:1.35}
+.banda ol{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.banda li{display:flex;gap:10px;align-items:center}
+.banda li b{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:var(--naranja);color:var(--negro);font-family:var(--f-titulo);font-size:16px}
+.banda li p{font-size:14px;line-height:1.3;color:var(--claro-osc)}
+.banda li strong{color:var(--blanco)}
+.banda .bajar{position:relative;top:auto;right:auto;gap:2px;padding:11px 18px 11px 46px;max-width:260px}
+.banda .bajar b{font-size:20px}
+.banda .bajar small{font-size:11px;line-height:1.25}
+.centro .pad>h2+.defc{margin-top:8px}.centro .pad>.defc+*{margin-top:auto}
+.defc{font-size:16.5px;line-height:1.4;color:var(--tinta-suave);margin-bottom:14px}.defc b{color:var(--azul)}
+.cw3 .dos h3{font-size:28px}.cw3 .dos .lista li{font-size:17px}
+.lado-cw .lista li.aisl{color:var(--rojo);font-weight:600}
+.pie-v3{margin-top:10px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.pie-v3 .nota{margin:0;flex:1}
+.pie-v3 .ver.red{padding:9px 14px}.pie-v3 .ver.red b{font-size:18px}
+.ver{flex:none;display:flex;flex-direction:column;gap:2px;max-width:470px;background:var(--azul-noche);border-left:5px solid var(--naranja);border-radius:8px;padding:9px 16px;text-decoration:none}
+.ver b{font-family:var(--f-titulo);font-size:19px;font-weight:700;color:var(--naranja)}
+.ver span{font-size:13.5px;line-height:1.3;color:var(--claro-osc)}
+.ver:hover{background:var(--azul)}
+.slide:has(.pie-v3) .det{padding:13px 18px}.slide:has(.pie-v3) .det ul{gap:6px}.slide:has(.pie-v3) .det li{font-size:15.5px;line-height:1.36}
+.pn-v3 .zoom img{max-height:290px;width:100%;object-fit:cover;object-position:top}
+.pn-v3 .pn-h{display:block;margin-top:12px}
+.apart{margin-top:6px;display:flex;flex-wrap:wrap;gap:5px}
+.apart i{font-style:normal;font-size:12.5px;font-weight:600;background:var(--blanco);border:1px solid var(--linea);border-radius:5px;padding:3px 8px;color:var(--tinta)}
+.apart i.nuevo{background:var(--naranja);border-color:var(--naranja);color:var(--negro)}
+.pn-v3 .fuentes{gap:6px}.pn-v3 .fuentes li{font-size:14.5px}
+.pn-v3 .fuentes li.dest{background:var(--blanco);border:1px solid var(--linea);border-left:4px solid var(--naranja);border-radius:6px;padding:6px 10px 6px 24px}
+.pn-v3 .fuentes li.dest:before{left:9px;top:13px;background:var(--naranja)}
+.evo{display:grid;grid-template-columns:1fr 110px 1fr;gap:18px;align-items:start}
+.evo>*{min-width:0}
+.evo-v{display:flex;flex-direction:column;gap:6px}
+.evo-v .mini{position:relative;display:block;border-radius:8px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.18);margin-bottom:6px}
+.evo-v .mini img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;transition:transform .3s}
+.evo-v .mini:hover img{transform:scale(1.03)}
+.evo-v .mini i{position:absolute;left:10px;bottom:10px;font-style:normal;font-size:14px;font-weight:700;background:rgba(0,0,0,.78);color:#fff;border-radius:5px;padding:3px 9px}
+.evo-v>b{font-family:var(--f-titulo);font-size:21px;line-height:1.12;font-weight:700;color:var(--tinta)}
+.evo-v ul{list-style:none;display:grid;gap:4px;margin-top:2px}
+.evo-v li{position:relative;padding-left:16px;font-size:15px;line-height:1.35;color:var(--tinta-suave)}
+.evo-v li:before{content:"›";position:absolute;left:0;color:var(--azul);font-weight:800}
+.evo-f{align-self:center;text-align:center;margin-top:-70px}
+.evo-f b{display:block;font-family:var(--f-titulo);font-size:64px;line-height:1;color:var(--naranja)}
+.evo-f span{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--tinta-suave)}
+.rut4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rut4>div{background:var(--blanco);border:1px solid var(--linea);border-top:5px solid var(--azul);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+.rut4 .via{font-size:13px}
+.rut4 p{font-size:15px;line-height:1.38;color:var(--tinta-suave)}
+.rut4 p b{display:block;font-family:var(--f-titulo);font-size:20px;font-weight:700;color:var(--azul);margin-bottom:2px}
+.kpi3{margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.kpi3 div{background:var(--azul-noche);border-radius:8px;padding:12px 18px;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.kpi3 b{font-family:var(--f-titulo);font-size:50px;line-height:1;font-weight:800;color:var(--naranja)}
+.kpi3 p{font-size:15.5px;line-height:1.35;color:var(--claro-osc)}
+.kpi3+.nota{margin-top:10px}
+
+.paso{transition:opacity .5s ease,transform .5s ease}
+.slide .paso:not(.visto){opacity:0;transform:translateY(16px)}
+.slide tr.paso:not(.visto){transform:none}
+.slide tr.paso:not(.visto) td{border-bottom-color:transparent}
+.inst.visto .zoom{animation:latido 1.3s ease .4s 1}
+@keyframes latido{0%{box-shadow:0 0 0 0 rgba(255,164,0,0)}45%{box-shadow:0 0 0 9px rgba(255,164,0,.6)}100%{box-shadow:0 0 0 0 rgba(255,164,0,0)}}
+@media print{.slide .paso{opacity:1!important;transform:none!important}.inst .zoom{animation:none}#rep{display:none}}
+</style></head><body>
+<div id="viewport"><div id="stage">
+<section class="slide dark s-cover"><div class="bg" style="background-image:url(media/portada.jpg)"></div><div class="veil"></div>
+<div class="cover"><div class="eyebrow"><i></i>Reynasa · formación IA · noviembre de 2026</div>
+<h1>De probar la IA a <em>trabajar con agentes</em>, con seguridad</h1>
+<p class="sub">Desde principios de 2026 uso Claude en mi trabajo. Sistemas tenía dudas razonables sobre los datos, la red y Sage, y buscamos juntos una forma segura de hacerlo. Esto es lo que hemos montado y lo que ya funciona.</p>
+<div class="hito-p"><b>70.000</b><div><strong>descripciones SEO en una semana, una por cada producto de la web</strong><p>Una skill decía cómo tenía que ser cada descripción. Varios agentes de IA, con Codex y Claude Code, investigaban los datos de cada producto y escribían la suya, personalizada.</p></div></div>
+<div class="partes"><span><b>1</b>Lo que hace</span><span><b>2</b>Cómo se hace</span></div><div class="alianza"><span class="pill"><img src="media/logo-reynasa.png" alt="Reynasa"></span><span>Claude · Cowork · Claude Code · extensión de Chrome</span></div></div></section>
+<section class="slide"><div class="pad"><div class="eyebrow"><i></i>Antes de empezar · las normas</div>
+<h2>8 normas, <em>las mismas para todos</em></h2>
+<div class="n8"><div><b>1</b><strong>Carpetas de red: nunca</strong><p>V:, X:, Y:, Z:, EDI, XRT y el servidor. Ni para mirar.</p></div><div><b>2</b><strong>Trabaja en tu PC</strong><p>Una carpeta en el Escritorio. A la red lo subes tú.</p></div><div><b>3</b><strong>Borrar, con un «sí»</strong><p>Antes te enseña la lista exacta de lo que va a borrar.</p></div><div><b>4</b><strong>Sage X3: consultar</strong><p>Buscar, filtrar y descargar. Nada de crear, cambiar o borrar (fase 1).</p></div><div><b>5</b><strong>Cuenta @reynasa.com</strong><p>La Business, que cumple el RGPD. Nunca una cuenta personal.</p></div><div><b>6</b><strong>Webs, con cabeza</strong><p>Cualquiera, con uso responsable.</p></div><div><b>7</b><strong>Instalar, explicándolo</strong><p>Dice qué es y para qué. Si pide contraseña de administrador, a Sistemas.</p></div><div><b>8</b><strong>Sin ser administrador</strong><p>Ni antivirus, ni firewall, ni permisos de Windows.</p></div></div>
+<div class="aviso-n"><q>Ojo: esto va contra las buenas prácticas de Reynasa (norma 1).</q><span>Así avisa Claude si le pides algo que choca. Ya las lleva dentro: en el chat, en Cowork y en Claude Code.</span></div>
+<p class="nota">Única excepción en Sage: las entregas de pedidos PEV en conector (norma 4.1), un proceso concreto de Sistemas.</p></div></section>
+<section class="slide centro"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · Claude en Chrome</div>
+<h2>Dos ejemplos <em>reales</em></h2>
+<div class="vid2"><div><div class="vid noclick"><video controls preload="none" playsinline poster="media/v/hugo_ns.jpg" src="media/v/hugo_ns.mp4"></video><img class="imp" src="media/v/hugo_ns.jpg" alt=""></div><p class="pie-v"><b>Un compañero de Compras · 1:27</b> · Equivalencias de carrocería en NextShop: 200 referencias, una columna por marca, mientras él seguía con lo suyo.</p><ul class="aprende"><li>Escribe, pulsa Intro y lee cada pieza, como una persona</li><li>Aprende sobre la marcha: primero un barrido rápido</li><li>La sesión la abre la persona; Claude solo busca y lee</li></ul></div>
+<div><div class="vid noclick"><video controls preload="none" playsinline poster="media/v/nextshop.jpg" src="media/v/nextshop.mp4"></video><img class="imp" src="media/v/nextshop.jpg" alt=""></div><p class="pie-v"><b>Rubén · 1:23</b> · Equivalencias en NextShop y stock en Sage: una alternativa con stock un 84 % más barata.</p><ul class="aprende"><li>Dos webs, una sola orden</li><li>La sesión de NextShop la abre la persona</li><li>Ni el carrito ni Sage se tocan</li></ul></div></div></div></section>
+<section class="slide centro fz"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · la skill agéntica</div>
+<h2>Tú cuentas tu tarea. <em>Claude crea la skill</em></h2>
+<div class="pdx"><div class="cab"><span class="via">Lo que te pregunta · 10-15 min</span><span class="via">Lo que respondes</span><span class="via">Lo que queda escrito · ventas-sage-a-ppt / SKILL.md</span></div><div class="fila"><div class="pq">¿Qué tarea, con qué datos y cada cuánto?</div><div class="rs">«El resumen de ventas de ayer de la planta R001»</div><div class="md"><b>Lo que dice la persona</b>Planta R001 · periodo: ayer; si fue fin de semana, el viernes</div></div><div class="fila"><div class="pq">¿En qué web y con qué URL?</div><div class="rs">«En Sage: la lista de facturas y la de entregas»</div><div class="md"><b>Sage X3 · vía Claude in Chrome</b>Ventas › Consultas › Lista facturas y Lista entregas: filtra y exporta</div></div><div class="fila"><div class="pq">¿Qué cruces, cálculos o reglas?</div><div class="rs">«Cuadrar lo entregado con lo facturado»</div><div class="md"><b>Pasos y reglas</b>Excel con el cuadre por albarán · abonos en negativo · si un dato no está en Sage: PENDIENTE</div></div><div class="fila"><div class="pq">¿A dónde va?</div><div class="rs">«Un PowerPoint, a mi carpeta de Drive»</div><div class="md"><b>Google Drive</b>PowerPoint de 4-5 diapositivas con los colores de Reynasa › carpeta «Skill agentica prueba» (drive.google.com/…)</div></div><div class="fila"><div class="pq">¿Dónde quieres que pare y te enseñe?</div><div class="rs">«Antes de cambiar nada, que me lo enseñe»</div><div class="md"><b>Punto de control y Nunca</b>Enseña los cambios y espera tu OK · nunca inicia sesión, ni cambia nada en Sage, ni envía correos</div></div></div>
+<div class="banda"><span class="via">Pruébala<br>en 3 pasos</span><ol><li><b>1</b><p>Pulsa <strong>Descargar</strong> y baja el ZIP. No lo descomprimas.</p></li><li><b>2</b><p>En Claude: <strong>Personalizar › Skills › + › Subir una skill</strong>.</p></li><li><b>3</b><p>En Cowork o Claude Code, escribe <strong>/skill-agentica</strong> y cuéntale tu proceso.</p></li></ol><a class="bajar noclick" href="https://drive.google.com/drive/folders/1YaMASDmv_cX9JEaSr_DKjZ7cCYfytHnk" target="_blank" rel="noopener"><b>Descargar la skill agéntica</b><small>Carpeta de Drive con el ZIP y las instrucciones · cuenta @reynasa.com</small></a></div></div></section>
+<section class="slide caso centro"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · skill agéntica, prueba real</div>
+<h2>Skill 1 · De Sage a un PowerPoint en Drive</h2><div class="cols c2 cv"><div class="vid noclick"><video controls preload="none" playsinline poster="media/v/skill1.jpg" src="media/v/skill1.mp4"></video><img class="imp" src="media/v/skill1.jpg" alt=""></div>
+<div class="ficha"><div class="enc"><span>El encargo</span>Las ventas de un día de la planta R001: de Sage a un Excel, un PowerPoint y Drive.</div>
+<div class="bloque"><span>Qué hace Claude</span><ul><li>Lee facturas y entregas en Sage, solo consultando</li><li>Monta el Excel y 4 diapositivas</li><li>Cowork no pudo subirlo a Drive: lo hizo Claude Code</li></ul></div>
+<div class="res"><span>Resultado</span>Un Excel y un PowerPoint de 4 diapositivas con las ventas reales del día. A Drive lo subió Claude Code.</div>
+<div class="prod"><div><b>19 min</b>Claude, solo</div><div><b>0</b>pasos a mano</div><div class=libre><b>2:06</b>de vídeo</div></div></div></div></div></section>
+<section class="slide caso centro"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · skill agéntica, prueba real</div>
+<h2>Skill 2 · Del stock de Sage a una hoja de Drive</h2><div class="cols c2 cv"><div class="vid noclick"><video controls preload="none" playsinline poster="media/v/skill2.jpg" src="media/v/skill2.mp4"></video><img class="imp" src="media/v/skill2.jpg" alt=""></div>
+<div class="ficha"><div class="enc"><span>El encargo</span>Rellena la hoja «Control de stock» con el stock de Sage de 10 artículos.</div>
+<div class="bloque"><span>Qué hace Claude</span><ul><li>Lee los 10 códigos de la hoja</li><li>Los busca uno a uno en «Stock por artículo»</li><li>Te enseña los cambios y espera tu OK antes de escribir</li></ul></div>
+<div class="res"><span>Resultado</span>Columnas C a J rellenas, 6 artículos bajo mínimo y la pestaña LOG.</div>
+<div class="prod"><div><b>7 min</b>Claude, solo</div><div><b>1 OK</b>lo único que hice</div><div class=libre><b>1:32</b>de vídeo</div></div></div></div></div></section>
+<section class="slide cc"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · el blog de TodoEnRecambio</div><h2>De la idea <em>al blog publicado</em></h2><div class="cc-img"><div class="zoom noclick"><img src="media/v3/metro-blog.jpg" alt="Cómo Claude Code crea un blog de TodoEnRecambio de principio a fin"></div><ul class="ideas"><li><b>Una sola parada tuya:</b> decidir qué blog se publica. Investigar, escribir, las imágenes, el borrador, el Yoast, programarlo y vigilarlo lo hace Claude Code.</li><li><b>El mismo bucle en cada paso:</b> planear → hacer → comprobar → corregir.</li><li><b>Lo que aprende vuelve al principio:</b> lo que Google indexa, lo que se queda a punto de subir y lo que corrigen los revisores alimenta el siguiente blog.</li><li><b>En la siguiente:</b> cada fase por dentro, con sus skills.</li></ul></div></div></section>
+<section class="slide"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · el blog de TodoEnRecambio</div>
+<h2>Un blog, de la idea a Google: <em>10 fases</em></h2>
+<div class="mapa"><button class="fase noclick tu" data-f="0"><b>0</b><strong>El encargo</strong><small>Tú decides</small></button><button class="fase noclick on" data-f="1"><b>1</b><strong>Investigación</strong><small>Claude</small></button><button class="fase noclick" data-f="2"><b>2</b><strong>Metadatos SEO</strong><small>Claude</small></button><button class="fase noclick" data-f="3"><b>3</b><strong>Redacción</strong><small>Claude</small></button><button class="fase noclick" data-f="4"><b>4</b><strong>Imágenes</strong><small>Claude</small></button><button class="fase noclick" data-f="5"><b>5</b><strong>Borrador en WordPress</strong><small>Claude</small></button><button class="fase noclick" data-f="6"><b>6</b><strong>Yoast con Chrome</strong><small>Claude</small></button><button class="fase noclick tu" data-f="7"><b>7</b><strong>Tu OK y la programación</strong><small>Tú decides</small></button><button class="fase noclick" data-f="8"><b>8</b><strong>Revisión técnica</strong><small>Claude</small></button><button class="fase noclick" data-f="9"><b>9</b><strong>Vigilancia</strong><small>Claude</small></button></div>
+<div class="detalle noclick"><div class="det" data-f="0" hidden><div><span class="via">Fase 0 · El encargo</span><ul><li>Tú le das el tema («hazme un blog de X») o lo saca del Excel de planificación.</li><li>Carga las 6 skills del blog y las cumple enteras: nada de versiones reducidas.</li></ul></div><div class="chips"><span class="via">Skills</span><i>blog-tdr (las 6)</i></div></div><div class="det" data-f="1"><div><span class="via">Fase 1 · Investigación</span><ul><li>¿Ya existe? Search Console, WordPress y la canibalización de la tienda (MCP): si ya hay post, propone mejorarlo.</li><li>Palabras clave con Semrush y Search Console; intención y lector (taller, aficionado o B2B).</li><li>Competencia: lee los primeros de Google. Fuentes: fabricante, BOE y DGT, estudios. Nada sin fuente.</li><li>Datos propios: ventas de la familia y más vendidos. Marcas solo de los Excel. URLs reales comprobadas.</li></ul></div><div class="chips"><span class="via">Skills</span><i>creacion-blog-01-preparacion</i><i>brief-seo-tdr</i><i>arquitectura-ecommerce-tdr</i></div></div><div class="det" data-f="2" hidden><div><span class="via">Fase 2 · Metadatos SEO</span><ul><li>Palabra clave principal y 3-5 secundarias.</li><li>Título SEO de 50-60 caracteres y meta description de 150-160.</li><li>Slug, textos para Facebook y X, categoría, 3-6 etiquetas y extracto.</li></ul></div><div class="chips"><span class="via">Skills</span><i>estructura-blog-base</i></div></div><div class="det" data-f="3" hidden><div><span class="via">Fase 3 · Redacción</span><ul><li>12 bloques fijos: título, firma, puntos clave, índice, introducción, 5-8 preguntas con respuesta directa, FAQ, conclusión, fuentes y autor.</li><li>Una tabla comparativa propia, el dato de ventas de TDR y el vídeo del canal si lo hay.</li><li>Unas 1.500 palabras, 3-6 enlaces internos, marcas del Excel y sin precios ni stock.</li></ul></div><div class="chips"><span class="via">Skills</span><i>creacion-blog-02-redaccion</i><i>estructura-blog-calidad</i><i>brand-voice-tdr</i><i>geo-aeo-tdr</i><i>schema-tdr</i></div></div><div class="det" data-f="4" hidden><div><span class="via">Fase 4 · Imágenes</span><ul><li>4 por post: portada 16:9 y 3 fotos 4:3, con Higgsfield desde la foto real del producto.</li><li>Zoom a etiquetas y grabados: si la IA inventa un número o un logo, lo corrige o la repite.</li><li>Logo de TDR, nombre, texto alternativo y pie. Se comprimen solas a menos de 150 KB.</li></ul></div><div class="chips"><span class="via">Skills</span><i>creacion-blog-00-imagenes</i><i>higgsfield-generate</i></div></div><div class="det" data-f="5" hidden><div><span class="via">Fase 5 · Borrador en WordPress</span><ul><li>Su script sube las imágenes, crea las etiquetas, el borrador, la categoría y la imagen destacada.</li><li>Se lanza una sola vez, y las peticiones van de una en una, con 2 s de pausa: las ráfagas bloquean la IP de la oficina.</li></ul></div><div class="chips"><span class="via">Skills</span><i>creacion-blog-03-publicacion</i></div></div><div class="det" data-f="6" hidden><div><span class="via">Fase 6 · Yoast con Chrome</span><ul><li>La API de WordPress no guarda el Yoast: lo rellena la extensión de Chrome en el editor, con tu sesión.</li><li>Palabra clave, título SEO, meta description, Facebook y X. Antes te enseña lo que va a poner, y después comprueba lo guardado.</li></ul></div><div class="chips"><span class="via">Skills</span><i>Claude en Chrome</i></div></div><div class="det" data-f="7" hidden><div><span class="via">Fase 7 · Tu OK y la programación</span><ul><li>Revisas el borrador y das el OK o pides cambios.</li><li>Lo programa de lunes a viernes, uno al día a las 13:00, en el primer hueco libre. Sin Yoast no se programa.</li></ul></div><div class="chips"><span class="via">Skills</span><i>creacion-blog-03-publicacion</i></div></div><div class="det" data-f="8" hidden><div><span class="via">Fase 8 · Revisión técnica</span><ul><li>Correo en borrador: moto y coche, cada uno a su revisor, con ATLAS en copia. Nunca se envía solo.</li><li>Lo marca como publicado en el Excel. Lo que corrigen queda como regla para los siguientes.</li></ul></div><div class="chips"><span class="via">Skills</span><i>revision-blogs-email</i></div></div><div class="det" data-f="9" hidden><div><span class="via">Fase 9 · Vigilancia</span><ul><li>Tres veces al día: la cola, los posts sin Yoast, los vídeos sin meter y los enlaces rotos.</li><li>Search Console hasta que se indexa, y avisos si se queda en la posición 4-15, choca con otro o tiene pocos clics.</li></ul></div><div class="chips"><span class="via">Skills</span><i>panel de redes · pestaña Blog</i></div></div></div>
+<div class="pie-v3"><p class="nota">Pulsa cada fase para ver qué hace y con qué skills. Siempre activa: <b>buenas-practicas-reynasa</b>.</p><a class="ver noclick" href="https://todoenrecambio.com/blog/candado-cadena-antirrobo-moto/" target="_blank" rel="noopener"><b>Ver un blog publicado ↗</b><span>Candado o cadena antirrobo para moto: cuál protege más</span></a></div></div></section>
+<section class="slide cc"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · el canal de YouTube</div><h2>Del tema <em>al vídeo publicado</em></h2>
+<div class="cc-img"><div class="zoom noclick"><img data-a="media/cc/A-flujo.jpg" data-d="media/cc/D-flujo.jpg" src="media/cc/A-flujo.jpg" alt="Cómo Claude Code crea un vídeo de YouTube de principio a fin"></div><ul class="ideas"><li><b>El mismo bucle en cada paso:</b> planear → hacer → comprobar → corregir. En un vídeo se repite cientos de veces.</li><li><b>Un caso real:</b> el vídeo 33 había que cambiarle la voz. Claude escribió su propia herramienta, la probó en pequeño y lo publicó a tiempo: menos de 40 minutos, con dos OK tuyos.</li><li><b>Y cada día, solas:</b> a las 10:00 sube 4 shorts privados con su fecha, y a las 12:00 revisa las descripciones del canal.</li><li><b>Lo que falta:</b> el avatar de HeyGen por Chrome y encadenar todas las fases con tareas programadas.</li></ul></div><div class="sw noclick"><span>Diseño</span><button data-dis="a">A · corporativo</button><button data-dis="d">D · metro</button></div></div></section>
+<section class="slide"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · el canal de YouTube</div>
+<h2>Un vídeo largo, del tema a YouTube: <em>20 pasos en 10 fases</em></h2>
+<div class="mapa"><button class="fase noclick" data-f="0"><b>0</b><strong>El encargo y las reglas</strong><small>Claude</small></button><button class="fase noclick tu on" data-f="1"><b>1</b><strong>El tema, con datos</strong><small>Tú eliges</small></button><button class="fase noclick tu" data-f="2"><b>2</b><strong>El guion</strong><small>Tú revisas</small></button><button class="fase noclick" data-f="3"><b>3</b><strong>Voz y tiempos</strong><small>Claude</small></button><button class="fase noclick tu" data-f="4"><b>4</b><strong>Avatar y sincronía</strong><small>Hoy, tú</small></button><button class="fase noclick" data-f="5"><b>5</b><strong>Productos, imágenes y música</strong><small>Claude</small></button><button class="fase noclick" data-f="6"><b>6</b><strong>El montaje, en código</strong><small>Claude</small></button><button class="fase noclick" data-f="7"><b>7</b><strong>Revisar, render y calidad</strong><small>Claude</small></button><button class="fase noclick tu" data-f="8"><b>8</b><strong>Textos, miniaturas y tu OK</strong><small>Tú decides</small></button><button class="fase noclick" data-f="9"><b>9</b><strong>Publicar, shorts y después</strong><small>Claude</small></button></div>
+<div class="detalle noclick"><div class="det" data-f="0" hidden><div><span class="via">Fase 0 · El encargo y las reglas</span><ul><li>Antes de nada lee tu CLAUDE.md, la memoria del canal (voces, estilo papel, miniaturas, calendario) y la skill del tipo de vídeo.</li><li>Reglas fijas: nada se sube sin tu OK, ninguna cifra inventada, el logo de TDR siempre el real y nunca se borra un vídeo.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>tdr-video-0-metodo</i><i>video-canal-tdr</i></div></div><div class="det" data-f="1"><div><span class="via">Fase 1 · El tema, con datos</span><ul><li>No opina: mide. Volumen y dificultad de cada búsqueda en España, y lo cruza con lo que ya trae visitas y ventas.</li><li>Comprueba que TDR vende esa pieza y que no hay ya un vídeo del tema. Lee el dossier de ATLAS si lo hay.</li><li>Ejemplo: «pedal de freno duro» daba 250 búsquedas al mes; «servofreno», 5.400. Así se reenfoca un tema.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>tdr-video-1-tema</i><i>Semrush</i><i>YouTube Analytics</i><i>Search Console</i><i>GA4</i></div></div><div class="det" data-f="2" hidden><div><span class="via">Fase 2 · El guion</span><ul><li>Entre 45 y 58 bloques: unas 1.200-1.400 palabras, de 8 a 10 minutos.</li><li>Cada bloque marcado: tú a cámara, tú en una ventana o voz sobre imágenes. Las cifras, solo con fuente.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>tdr-video-2-guion</i></div></div><div class="det" data-f="3" hidden><div><span class="via">Fase 3 · Voz y tiempos</span><ul><li>Locuta cada bloque con tu voz de ElevenLabs y mide cuánto dura. Las siglas, como se dicen.</li><li>Marca el segundo exacto de cada palabra: todo el montaje se ancla a esas palabras.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>ElevenLabs · voz</i><i>ElevenLabs · Scribe</i></div></div><div class="det" data-f="4" hidden><div><span class="via">Fase 4 · Avatar y sincronía</span><ul><li>El avatar en HeyGen lo haces tú hoy. Con la extensión de Chrome, Claude puede hacerlo en tu sesión.</li><li>Después mide el desfase entre la voz y la boca hasta dejarlo en 0 ms, y corta un clip por bloque.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>HeyGen</i><i>Python</i><i>FFmpeg</i></div></div><div class="det" data-f="5" hidden><div><span class="via">Fase 5 · Productos, imágenes y música</span><ul><li>Descarga las fotos reales de las fichas de la tienda, les quita el fondo y comprueba cada enlace.</li><li>Imágenes y clips en Higgsfield con el presupuesto que fijas tú: revisa 5 fotogramas de cada clip y descarta lo que se deforma.</li><li>Música propia, por debajo de la voz, que se aparta sola cuando hablas.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>higgsfield-generate</i><i>web de TDR</i><i>ElevenLabs · música</i></div></div><div class="det" data-f="6" hidden><div><span class="via">Fase 6 · El montaje, en código</span><ul><li>No arrastra clips: escribe el montaje como un programa. De 70 a 100 planos en 9 minutos.</li><li>Pizarras con una mano que dibuja en tiza, sellos, tickets de TDR y cada sonido en la palabra exacta.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>video-largo-formato-papel</i><i>tdr-video-9-pizarras</i><i>tdr-video-8-capa-dinamica</i></div></div><div class="det" data-f="7" hidden><div><span class="via">Fase 7 · Revisar, render y calidad</span><ul><li>Antes del render mira hojas de fotogramas de cada capítulo y corrige lo que tapa o se sale.</li><li>Render de cerca de 1 hora con el PC despierto. Luego mide: voz a 0 ms, sonido a −14,8 LUFS, sin imagen congelada y 75 instantes comprobados.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>FFmpeg</i><i>Chrome</i><i>motor de montaje propio</i></div></div><div class="det" data-f="8" hidden><div><span class="via">Fase 8 · Textos, miniaturas y tu OK</span><ul><li>Título con la búsqueda literal, descripción con capítulos medidos y enlaces comprobados, y los subtítulos.</li><li>Cuatro miniaturas en los estilos fijos, con el logo real. Te prepara una página de revisión y una copia para el móvil, y das el OK.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>tdr-video-6-miniaturas</i><i>miniatura-con-producto</i><i>miniatura-con-accion</i></div></div><div class="det" data-f="9" hidden><div><span class="via">Fase 9 · Publicar, shorts y después</span><ul><li>Lo sube privado con fecha, marcado como hecho con IA, con miniatura, textos y subtítulos, y comprueba que YouTube lo ha procesado.</li><li>Saca de 7 a 12 shorts y, con tu OK, los programa en YouTube, Instagram, TikTok y Facebook.</li><li>Después, las rutinas del panel recogen comentarios y datos, y lo que funciona vuelve a la fase 1.</li></ul></div><div class="chips"><span class="via">Skills, conectores y herramientas</span><i>tdr-video-7-publicacion</i><i>video-corto-formato-papel</i><i>YouTube Data API</i><i>Metricool</i></div></div></div>
+<div class="pie-v3"><p class="nota">Pulsa cada fase para ver qué hace y con qué. Todo vive en la carpeta RRSS TDR AUTOMATIZADO: skills, memoria, programas y claves.</p><a class="ver red noclick" href="https://www.instagram.com/todoenrecambio/" target="_blank" rel="noopener"><b>Instagram ↗</b><span>@todoenrecambio</span></a><a class="ver red noclick" href="https://www.tiktok.com/@todoenrecambio" target="_blank" rel="noopener"><b>TikTok ↗</b><span>@todoenrecambio</span></a><a class="ver noclick" href="https://youtu.be/bMru8oJyg2Y" target="_blank" rel="noopener"><b>Ver el último vídeo ↗</b><span>Batería de moto: por qué se descarga en invierno, cuánto dura y cómo mantenerla</span></a></div></div></section>
+<section class="slide centro"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · el canal de YouTube</div>
+<h2>Cada vídeo, <em>mejor que el anterior</em></h2>
+<div class="evo"><div class="evo-v"><a class="mini noclick" href="https://youtu.be/owrrPGwo4wM" target="_blank" rel="noopener"><img src="media/v3/turbo.jpg" alt="Miniatura del vídeo Turbo del coche: 3 síntomas de que se está muriendo y el error que lo mata"><i>▶ 11:18</i></a>
+<span class="via">Agosto de 2026 · vídeo 7</span><b>Turbo del coche: 3 síntomas de que se está muriendo y el error que lo mata</b><ul><li>Montaje con FFmpeg</li><li>Pizarras y cifras animadas</li></ul></div><div class="evo-f"><b>→</b><span>27 vídeos<br>después</span></div><div class="evo-v"><a class="mini noclick" href="https://youtu.be/bMru8oJyg2Y" target="_blank" rel="noopener"><img src="media/v3/bateria.jpg" alt="Miniatura del vídeo Batería de moto: por qué se descarga en invierno, cuánto dura y cómo mantenerla"><i>▶ 8:38</i></a>
+<span class="via">Noviembre de 2026 · vídeo 34</span><b>Batería de moto: por qué se descarga en invierno, cuánto dura y cómo mantenerla</b><ul><li>Formato papel, con el avatar de HeyGen</li><li>Productos reales de la tienda</li><li>Calidad medida: voz a 0 ms, −14,8 LUFS, sin imagen congelada</li></ul></div></div>
+<div class="remate"><b>Lo que cambia es el método</b><p>Cada vídeo deja skills y reglas nuevas, y lo que falla en uno se arregla para el siguiente. Pasa igual con cualquier trabajo repetitivo de oficina: la primera vez sale bien; la décima, mejor y en menos tiempo.</p></div></div></section>
+<section class="slide cc"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · el panel de redes</div><h2>De los datos <em>al panel publicado</em></h2><div class="cc-img"><div class="zoom noclick"><img src="media/v3/metro-panel.jpg" alt="Cómo Claude Code actualiza el panel de redes de principio a fin"></div><ul class="ideas"><li><b>Ninguna parada tuya:</b> la rutina sale sola a las 9:00, 12:30 y 17:00 y hace todo el recorrido.</li><li><b>Claude solo propone:</b> explica los cambios, clasifica los comentarios y escribe las sugerencias. Qué hacer con ellas lo decides tú, después.</li><li><b>No acaba hasta verlo:</b> cifra los datos, publica la web y comprueba que ya se ven los nuevos. Si no, lo vuelve a intentar.</li></ul></div></div></section>
+<section class="slide"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · el panel de redes</div>
+<h2>El panel de redes de TDR: <em>se rehace solo</em>, tres veces al día</h2>
+<div class="pn1 pn-v3"><div><div class="zoom noclick"><img src="media/panel/global.jpg" alt="Panel de redes de TDR, pestaña Global"></div>
+<p class="pie">En vivo: <a class="noclick" href="https://rubeniarey.github.io/tdr-canal-youtube/panel/" target="_blank" rel="noopener">rubeniarey.github.io/tdr-canal-youtube/panel</a> · captura del 27/10</p>
+<span class="pn-h">Sus 19 apartados · en naranja, los nuevos desde la captura</span><div class="apart"><i>Global</i><i>YouTube</i><i>Instagram</i><i>TikTok</i><i>Facebook</i><i class=nuevo>Urgente y sugerencias</i><i class=nuevo>Tienda</i><i class=nuevo>Analytics</i><i class=nuevo>Search Console</i><i class=nuevo>Evolución</i><i>Calendario</i><i>Blog</i><i>Impacto en TDR</i><i>Vídeos</i><i>Comentarios</i><i>Tablón Facebook</i><i>Tablón Instagram</i><i>Futuro</i><i>Mapa de vídeos</i></div></div>
+<div class="pn-der"><span class="pn-h">De dónde lee · 8 fuentes, y Claude encima</span><ul class="fuentes"><li><b>Metricool:</b> Instagram, TikTok y Facebook día a día, y lo que hay programado</li><li><b>YouTube Data y Analytics:</b> toda la historia del canal y los comentarios</li><li><b>Google Analytics 4:</b> tráfico, ventas, canales y visitas desde la IA</li><li><b>Search Console:</b> búsquedas, posiciones e indexación de cada página</li><li class=dest><b>La tienda, por MCP:</b> el PrestaShop de todoenrecambio.com, solo lectura: ventas frente al año pasado, pedidos de hoy, pedidos atascados, productos, catálogo y SEO de categorías</li><li><b>API de Meta:</b> el tablón de Facebook</li><li><b>WordPress:</b> los posts del blog y su Yoast</li><li><b>Archivos del PC:</b> el calendario aprobado y la cola de shorts</li><li class=dest><b>Claude, en cada rutina:</b> explica los cambios, clasifica los comentarios y escribe las sugerencias</li></ul>
+<em class="sello ok">Solo lee: no publica, no responde y no borra nada en las redes ni en la tienda</em></div></div></div></section>
+<section class="slide centro"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · mis rutinas</div>
+<h2>Mis rutinas: <em>el trabajo que sale solo</em></h2>
+<div class="rut4"><div><span class="via">Panel de redes</span><p><b>9:00 · 12:30 · 17:00</b>Actualiza el panel privado: redes, tienda, Google, comentarios, previsión y sugerencias.</p></div><div><span class="via">YouTube</span><p><b>Cada día · 10:00</b>Sube 4 shorts pendientes, privados y con su fecha.</p><p><b>Cada día · 12:00</b>Corrige hasta 28 descripciones del canal.</p></div><div><span class="via">Blog</span><p><b>Lunes · 8:10</b>Rehace el dashboard SEO del blog y te deja el correo con el PDF en borradores.</p><p><b>Lunes · 8:10</b>Prepara los correos de revisión de los blogs de la semana: moto y coche, cada uno a su revisor.</p></div><div><span class="via">Para mí</span><p><b>Cada día · 9:00</b>Radar de Nate Herk: lo nuevo, y para qué serviría en cada departamento.</p><p><b>Días 1 y 15 · 10:00</b>Limpieza del ordenador: recomienda qué borrar. Nunca borra.</p></div></div>
+<div class="kpi3"><div><b>9</b><p>tareas programadas</p></div><div><b>6</b><p>salen cada día, y 8 los lunes</p></div><div><b>1</b><p>condición: el ordenador encendido y conectado</p></div></div>
+<p class="nota">Cada rutina es una tarea con su hora: «todos los lunes a las 8:10, haz esto». Se crean en Cowork o en Claude Code.</p></div></section>
+<section class="slide"><div class="pad"><div class="eyebrow"><i></i>Parte 1 · Lo que hace · tu departamento</div>
+<h2>Qué puede hacer <em>por tu departamento</em></h2>
+<div class="dep6"><div><span class="via">Compras</span><ul><li>Tarifa del proveedor frente a los netos de Sage <i>probado</i></li><li>Equivalencias en TecDoc o NextShop, con stock <i>probado</i></li><li>Web de un competidor (Vemare): marcas, productos y PVP frente a lo nuestro</li></ul></div><div><span class="via">Contabilidad</span><ul><li>Pérdidas y ganancias y balances de Sage, a una presentación</li><li>Vencimientos validados del viernes, al Excel de transferencias</li><li>Pagos de caja frente a su factura</li></ul></div><div><span class="via">Comercial</span><ul><li>La ficha y el último pedido del cliente antes de llamar</li><li>Ranking de clientes consultando Sage <i>probado</i></li><li>El informe de cada comercial <i>probado</i></li></ul></div><div><span class="via">Marketing</span><ul><li>Precios de la competencia por referencia <i>probado</i></li><li>Fotos de producto con el nombre de su referencia <i>probado</i></li><li>URLs sin indexar en Search Console</li></ul></div><div><span class="via">RRHH</span><ul><li>Vacaciones de Visual Time a la hoja de Drive</li><li>Incidencias de fichaje por persona</li><li>Revisar decenas de nóminas en PDF de una vez</li></ul></div><div><span class="via">Almacén</span><ul><li>Albaranes del proveedor frente a recepciones <i>probado</i></li><li>Lo enviado en TecCom que aún no ha entrado <i>probado</i></li><li>Horarios de talleres para las rutas <i>probado</i></li></ul></div></div>
+<p class="nota"><b>Probado:</b> ya lo hemos hecho en Reynasa. El resto salió en reuniones con cada departamento: se prueba antes de usarlo.</p></div></section>
+<section class="slide"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · instálalo</div>
+<h2>Dos descargas, <em>y listo</em></h2>
+<div class="inst2"><div class="inst"><span class="via">1 · La aplicación de escritorio · Cowork y Claude Code</span>
+<a class="url noclick" href="https://claude.com/download" target="_blank" rel="noopener">claude.com/download</a>
+<div class="zoom noclick"><img src="media/descargas/escritorio.jpg" alt="Página de descarga de Claude, con el botón Descargar para Windows marcado"></div>
+<ol><li>Pulsa <b>Descargar para Windows</b> e instálala.</li><li>Entra con tu cuenta <b>@reynasa.com</b>, nunca con una personal.</li><li>Si Windows pide contraseña de administrador, <b>avisa a Sistemas</b> (norma 7).</li></ol></div>
+<div class="inst"><span class="via">2 · La extensión de Chrome</span>
+<a class="url noclick" href="https://claude.com/claude-in-chrome" target="_blank" rel="noopener">claude.com/claude-in-chrome</a>
+<div class="dos-img"><div class="zoom noclick"><img src="media/descargas/chrome.jpg" alt="Página de Claude in Chrome, con el botón Añadir a Chrome marcado"></div>
+<div class="zoom noclick"><img src="media/descargas/tienda.jpg" alt="Claude en la Chrome Web Store, con el botón Añadir a Chrome marcado"></div></div>
+<ol><li>Pulsa <b>Añadir a Chrome</b>: te lleva a la tienda de Chrome.</li><li>Allí, otra vez <b>Añadir a Chrome</b>, y entra con tu cuenta @reynasa.com.</li><li>Fíjala en la barra con el icono del puzle, para tenerla siempre a mano.</li></ol></div></div></div></section>
+<section class="slide caso centro"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · la extensión de Chrome</div>
+<h2>Cómo trabaja, <em>y por qué no es peligrosa</em></h2><div class="cols c2 cv"><div class="vid noclick"><video controls preload="none" playsinline poster="media/v/extension.jpg" src="media/v/extension.mp4"></video><img class="imp" src="media/v/extension.jpg" alt=""></div>
+<div class="claves ext4"><div><b>Un mando que trae Chrome</b>La extensión hace clic y escribe por dentro de Chrome, sin mover tu ratón. Windows ni se entera.</div><div><b>Para Sage, eres tú</b>Tu usuario, tus permisos y la misma pantalla web. Sin API ni puertas traseras: un usuario más, y más despacio.</div><div><b>Oficial y a la vista</b>Es la extensión de la tienda de Chrome. Mientras trabaja, Chrome enseña un aviso que lo para con un clic.</div><div><b>Varios a la vez, sin pisarse</b>Cada agente en su pestaña: como más compañeros conectados. Lo probamos con 5.</div><em class="sello ok">Fase 1: navegar, consultar y descargar</em></div></div></div></section>
+<section class="slide centro cw3"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · Cowork y Claude Code</div>
+<h2>Los dos son agentes. <em>Solo Claude Code toca tu PC</em></h2>
+<p class="defc"><b>Un comando</b> es una orden directa al ordenador: mover un archivo, abrir un programa, convertir un vídeo.</p>
+<div class="dos"><div class="lado-cw"><h3>Cowork, sin tocar tu ordenador</h3><ul class="lista">
+<li>Excel, Word y PowerPoint, en las carpetas que le conectas.</li><li>Drive, Gmail y Calendar, con los conectores.</li>
+<li>Sage y otras webs, con la extensión de Chrome.</li><li>Skills encadenadas, varios agentes a la vez y tareas programadas.</li>
+<li class="aisl">Sus comandos corren aislados: no llegan a tu Windows.</li></ul></div>
+<div class="lado-cc"><h3>Claude Code, además, dentro de tu PC</h3><ul class="lista">
+<li>Ejecuta comandos en tu Windows y usa tus programas: Python, FFmpeg…</li>
+<li>Llega a cualquier carpeta local sin conectarla: Descargas, el Escritorio, una USB.</li>
+<li>Mueve, convierte y sube archivos, te abre carpetas y te deja cosas para pegar con Ctrl+V.</li>
+<li><b>Remote Control:</b> con el PC encendido, lo sigues desde el móvil y trabaja en tus carpetas. Apagado, Claude Code en la web, sin tus carpetas.</li></ul></div></div>
+<div class="remate"><b>La regla</b><p>Si se puede hacer sin tocar tu ordenador, Cowork. Si hay que ejecutar algo en tu PC, Claude Code. En la siguiente, punto por punto.</p></div></div></section>
+<section class="slide centro"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · Cowork y Claude Code</div>
+<h2>Lo que Claude Code puede <em>y Cowork no</em></h2>
+<table class="tabla cvc"><tr><th>Lo que necesitas</th><th>Cowork</th><th>Claude Code</th><th>Cómo lo sabemos</th></tr><tr><td>Coger lo que descargas en Descargas</td><td>No, si no conectas esa carpeta</td><td>Sí, con un comando</td><td>Probado el 03/11</td></tr><tr><td>Subir un archivo de tu PC a Drive</td><td>No: el conector pide el archivo pegado como texto</td><td>Sí, con la extensión de Chrome</td><td>Probado el 03/11</td></tr><tr><td>Grabar la pantalla en vídeo</td><td>Solo el GIF de la pestaña</td><td>Sí, el escritorio entero</td><td>Pilotos del 22/10</td></tr><tr><td>Usar programas de tu PC: Python, FFmpeg, montar vídeos</td><td>No: corre aislado de tu Windows</td><td>Sí</td><td>Vídeos de YouTube y de esta formación</td></tr><tr><td>Abrirte un archivo o una carpeta en pantalla</td><td>No llega a tu Windows</td><td>Sí</td><td>Probado en Code</td></tr><tr><td>Dejarte algo copiado para pegar con Ctrl+V</td><td>En principio no</td><td>Sí</td><td>Probado en Code</td></tr><tr><td>Rutinas con claves y programas del PC (panel de redes, shorts)</td><td>Sin probar: las claves están en el PC</td><td>Sí, 3 veces al día</td><td>Rutinas de Rubén</td></tr></table>
+<div class="remate"><b>Igual en los dos</b><p>Sage y otras webs con Chrome, Excel y PowerPoint, Drive y Gmail, varios agentes a la vez y rutinas. Por eso: empieza en Cowork y pasa a Code cuando toque tu ordenador.</p></div></div></section>
+<section class="slide caso centro"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · Claude Code y las rutinas</div>
+<h2>Por qué Claude Code, y las rutinas</h2><div class="cols c2 cv"><div class="vid noclick"><video controls preload="none" playsinline poster="media/v/code.jpg" src="media/v/code.mp4"></video><img class="imp" src="media/v/code.jpg" alt=""></div>
+<div class="ficha"><div class="enc"><span>El encargo</span>Lo que Cowork no pudo hacer en la skill 1, cómo lo hizo Claude Code y cómo se programa.</div>
+<div class="bloque"><span>Qué hace Claude</span><ul><li>Cowork no llega a Descargas ni sube un archivo del PC a Drive</li><li>Claude Code lo mueve con un comando y lo sube con Chrome</li><li>Rutinas: a su hora, y si hace falta, entras tú en Sage</li></ul></div>
+<div class="res"><span>Resultado</span>El «Export Excel» de Sage sale vacío sin su complemento: leer la pantalla era lo correcto.</div>
+<div class="prod"><div><b>2</b>tropiezos de Cowork</div><div><b>Lunes 10:00</b>una rutina</div><div class=libre><b>2:22</b>de vídeo</div></div></div></div></div></section>
+<section class="slide"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · la memoria</div>
+<h2>Claude Code tiene <em>tres memorias</em></h2>
+<div class="tres-vias mem3"><div><span class="via">1 · Para todo</span><b>CLAUDE.md general</b><p>Quién eres y cómo trabajas. Vale para todas las carpetas.</p><code>C:\Users\tu-usuario\.claude\CLAUDE.md</code><em class="sello no">Lo pides tú</em></div>
+<div><span class="via">2 · Para un proyecto</span><b>CLAUDE.md de la carpeta</b><p>Las reglas de ese proyecto. Solo vale en esa carpeta.</p><code>Escritorio\tu-carpeta\CLAUDE.md</code><em class="sello no">Lo pides tú</em></div>
+<div class="si"><span class="via">3 · Sola</span><b>Memoria automática</b><p>Apuntes que Claude toma solo mientras trabajáis: tus correcciones, tus preferencias y en qué punto está cada cosa. Una por carpeta.</p><code>…\.claude\projects\tu-carpeta\memory\</code><em class="sello ok">Funciona sola</em></div></div>
+<div class="remate"><b>La 1 y la 2, pídelas</b><p>La 3 funciona sola. La 1 y la 2 hay que pedirlas, y pedir que se mantengan. Si no, se crean y se quedan como estaban.</p></div>
+<div class="ej-mem"><span class="via">Ejemplo real · la carpeta RRSS TDR AUTOMATIZADO de Rubén</span>
+<div><b>1 archivo</b><p>Con quién es Rubén, sus proyectos y las normas de Reynasa. Crece porque dentro le pide a Claude que lo actualice.</p></div>
+<div><b>1 archivo</b><p>Con las reglas de oro de las redes de TodoEnRecambio: nada se publica sin el OK de Rubén y el logo de TDR, siempre el real.</p></div>
+<div><b>84 apuntes</b><p>Guardados solos, como «el chico de los avatares es siempre Rubén» o qué modelo usar para los vídeos de producto.</p></div></div></div></section>
+<section class="slide dark"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · la memoria</div>
+<h2>Dilo <em>una vez</em> y Claude recordará tu trabajo</h2>
+<div class="mem2"><div class="frase-mem"><pre class="orden noclick" id="frase-memoria">Quiero que tengas memoria de mi trabajo entre conversaciones. Hazlo así:
+1. Crea un CLAUDE.md general con quién soy, mi puesto, cómo trabajo y mis herramientas.
+2. Crea un CLAUDE.md en esta carpeta con las reglas y el estado de este proyecto.
+3. Usa tu memoria automática para el detalle del día a día.
+4. Actualízalos tú solo: cuando aprendas algo que dure, cuando te corrija o cuando te diga «recuerda esto», guárdalo con la fecha. Lo que vale para todo, en el general; lo de este proyecto, en el de la carpeta.
+5. Pon esta misma instrucción al principio de cada CLAUDE.md, para que lo sigas haciendo en cualquier conversación.
+6. Si te pregunto por algo que no tengas guardado, búscalo en nuestras conversaciones anteriores de esta carpeta antes de decirme que no lo sabes.
+7. Mantenlos cortos y al día: corrige lo que cambie y quita lo que ya no valga.
+Cada vez que guardes algo, dímelo en una línea. Nunca guardes contraseñas ni datos personales de otras personas.</pre>
+<button class="copiar noclick" data-copia="frase-memoria"><b>Copiar la frase</b><small>Pégala en tu primera conversación de Claude Code</small></button></div>
+<ul class="claves-mem"><li><b>Cuándo</b>La primera vez que trabajes con Claude Code. Basta con una vez.</li><li><b>La clave</b>«Pon esta misma instrucción dentro de cada CLAUDE.md». Sin eso, se crean y no vuelven a cambiar.</li><li><b>Siempre en tus carpetas</b>Cada carpeta tiene su memoria: abre Claude Code en tus carpetas de proyecto, no en una nueva cada día.</li><li><b>Revísala de vez en cuando</b>Si apunta algo mal, lo repetirá hasta que lo corrijas.</li><li><b>Nada sensible</b>Ni contraseñas ni datos personales de otros (norma 5).</li></ul></div></div></section>
+<section class="slide centro"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · el método</div>
+<h2>Cómo convierto un proceso <em>en un agente</em></h2>
+<div class="flujo f5"><div class="caja"><b>1 · Ver el proceso entero</b><span>Qué hace la persona, paso a paso, con qué webs y archivos.</span></div><div class="flecha">→</div><div class="caja"><b>2 · Comprobar conexiones</b><span>Qué tiene conector (Drive, Gmail) y qué va por Chrome (Sage, Visual Time).</span></div><div class="flecha">→</div><div class="caja"><b>3 · Conectar</b><span>Conectores, la extensión y la sesión, que la inicia la persona.</span></div><div class="flecha">→</div><div class="caja acento"><b>4 · Crear las skills</b><span>Una por tarea: qué hacer, cómo, en qué URL y con qué reglas.</span></div><div class="flecha">→</div><div class="caja"><b>5 · Todo en una carpeta</b><span>CLAUDE.md, skills y datos. Y si se repite, una rutina.</span></div></div>
+<div class="remate"><b>Así están hechos</b><p>los casos que habéis visto al principio: el blog de TDR, el canal de YouTube, el panel de redes, las rutinas y las dos skills de Sage.</p></div></div></section>
+<section class="slide centro"><div class="pad"><div class="eyebrow"><i></i>Parte 2 · Cómo se hace · YouTube por dentro</div>
+<h2>Lo que se encadena: <em>conectores, programas y skills</em></h2>
+<div class="sk3 yt"><div><span class="via">Conectores y servicios</span><i>Semrush</i><i>YouTube Analytics</i><i>YouTube Data API</i><i>Search Console</i><i>GA4</i><i>Gmail · dossier de ATLAS</i><i>ElevenLabs · voz, Scribe y música</i><i>Higgsfield</i><i>HeyGen</i><i>Metricool</i></div><div><span class="via">Programas en el PC</span><i>Python</i><i>FFmpeg</i><i>Pillow</i><i>Chrome</i><i>motor de montaje propio</i><i>tareas programadas</i></div><div><span class="via">Skills del canal</span><i>tdr-video-0-metodo</i><i>video-canal-tdr</i><i>tdr-video-1-tema</i><i>tdr-video-2-guion</i><i>video-largo-formato-papel</i><i>tdr-video-8-capa-dinamica</i><i>tdr-video-9-pizarras</i><i>tdr-video-6-miniaturas</i><i>miniatura-con-producto</i><i>miniatura-con-accion</i><i>tdr-video-7-publicacion</i><i>video-corto-formato-papel</i><i>higgsfield-generate</i></div></div>
+<div class="reglas"><span class="via">Las reglas fijas del canal, guardadas en la memoria y en las skills</span><ul><li>Nada se sube ni se programa sin tu OK</li><li>Ninguna cifra inventada: todo número, con fuente</li><li>El logo de TDR, siempre el real</li><li>Nunca se borra un vídeo: el sustituido queda privado</li><li>Una sola cosa pesada a la vez en el PC</li><li>Voz y boca a 0 ms; sonido a −14,8 LUFS</li><li>4-5 días entre largos y la cuota diaria de YouTube</li><li>Los créditos de Higgsfield, con presupuesto fijo</li></ul></div>
+<div class="remate"><b>Lo que hago yo</b><p>Elegir el tema, leer el guion y dar el OK (y hoy, el avatar de HeyGen). Lo demás lo hace Claude Code: varias horas de ordenador por vídeo, sin que yo esté delante.</p></div></div></section>
+<section class="slide dark s-fin"><div class="pad"><div class="eyebrow"><i></i>Para llevarse</div>
+<h2>¿Con qué lo hago?</h2>
+<table class="tabla uso"><tr><th>Necesito…</th><th>Uso</th><th></th></tr><tr><td>Entrar en Sage, TecCom o una web con mi sesión</td><td>La extensión de Chrome</td><td>desde Cowork o Claude Code</td></tr><tr><td>Excel, Word, PowerPoint, Drive y Gmail</td><td>Cowork</td><td>con tus carpetas y conectores</td></tr><tr><td>Mover archivos del PC, subirlos a Drive, encadenar skills</td><td>Claude Code</td><td>en tu ordenador</td></tr><tr><td>Que se haga solo cada lunes</td><td>Una rutina</td><td>en Cowork o Code; si hace falta, entras tú</td></tr><tr><td>Pedirlo por correo y olvidarme</td><td>ATLAS</td><td>atlas@reynasa.com</td></tr></table>
+<p class="fin-frase">Empieza en Cowork. <em>Si toca tu ordenador, Claude Code.</em></p>
+<p class="marcas">Claude y Anthropic son marcas de Anthropic. Esta presentación no es oficial.</p></div></section>
+</div></div>
+<div id="nav"><button id="prev" title="Anterior (←)">‹</button><div id="dots"></div><span id="counter"></span><button id="next" title="Siguiente (→)">›</button><button id="fs" title="Pantalla completa (F)">⤢</button><button id="pdf" title="Descargar en PDF">PDF</button></div>
+<div id="hint">Pasa con <b>→</b>, desliza o pulsa a la derecha · <b>F</b> pantalla completa</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];const dots=document.getElementById('dots');const counter=document.getElementById('counter');const hint=document.getElementById('hint');
+let i=Math.max(0,Math.min(slides.length-1,(parseInt(location.hash.slice(1))||1)-1));
+slides.forEach((s,k)=>{const d=document.createElement('i');d.title='Diapositiva '+(k+1);d.onclick=()=>{hideHint();show(k)};dots.appendChild(d)});
+let hintTimer=setTimeout(hideHint,7000);function hideHint(){clearTimeout(hintTimer);hint.classList.add('off')}
+function show(n,first){n=Math.max(0,Math.min(slides.length-1,n));const old=i;i=n;
+slides.forEach((s,k)=>{s.classList.toggle('active',k===i);s.classList.toggle('prev',k<i);
+if(!first&&(k===old||k===i)){s.classList.add('anim');setTimeout(()=>s.classList.remove('anim'),550)}
+if(k!==i)s.querySelectorAll('video').forEach(v=>v.pause())});
+[...dots.children].forEach((d,k)=>d.classList.toggle('on',k===i));counter.textContent=(i+1)+' / '+slides.length;
+history.replaceState(null,'','#'+(i+1))}
+document.getElementById('prev').onclick=()=>{hideHint();show(i-1)};document.getElementById('next').onclick=()=>{hideHint();show(i+1)};
+document.getElementById('viewport').onclick=e=>{if(e.target.closest('#nav')||e.target.closest('.noclick'))return;hideHint();show(e.clientX<innerWidth/2?i-1:i+1)};
+document.getElementById('fs').onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()};
+document.getElementById('pdf').onclick=()=>window.print();
+addEventListener('keydown',e=>{hideHint();if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1)}
+if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1)}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);
+if(e.key.toLowerCase()==='f')document.getElementById('fs').click()});
+let x0=null;addEventListener('touchstart',e=>{x0=e.touches[0].clientX},{passive:true});
+addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50){hideHint();show(dx<0?i+1:i-1)}x0=null});
+addEventListener('hashchange',()=>{const n=(parseInt(location.hash.slice(1))||1)-1;if(n!==i)show(n)});
+const stage=document.getElementById('stage');function fit(){const s=Math.min(innerWidth/1280,(innerHeight-46)/720);stage.style.transform='translate(-50%,-50%) scale('+s+')'}
+addEventListener('resize',fit);fit();show(i,true);
+
+const imgsDis=[...document.querySelectorAll('img[data-a]')];
+function ponDiseno(x){imgsDis.forEach(im=>{im.src=im.dataset[x]});document.querySelectorAll('.sw button').forEach(b=>b.classList.toggle('on',b.dataset.dis===x));try{localStorage.setItem('diseno-cc',x)}catch(err){}}
+document.querySelectorAll('.sw button').forEach(b=>{b.onclick=ev=>{ev.stopPropagation();ponDiseno(b.dataset.dis)}});
+let dis0='a';try{dis0=localStorage.getItem('diseno-cc')||'d'}catch(err){}
+ponDiseno(dis0==='d'?'d':'a');
+const lb=document.createElement('div');lb.id='lb';lb.hidden=true;lb.innerHTML='<img alt="Imagen ampliada">';document.body.appendChild(lb);
+document.querySelectorAll('.zoom').forEach(z=>{z.onclick=ev=>{ev.stopPropagation();lb.firstChild.src=z.querySelector('img').src;lb.hidden=false}});
+lb.onclick=()=>{lb.hidden=true};
+addEventListener('keydown',ev=>{if(!lb.hidden&&ev.key!=='f'){lb.hidden=true}});
+document.querySelectorAll('.copiar').forEach(b=>{b.onclick=ev=>{ev.stopPropagation();const pre=document.getElementById(b.dataset.copia),et=b.querySelector('b'),txt=et.textContent;
+const ok=()=>{b.classList.add('ok');et.textContent='¡Copiada!';setTimeout(()=>{b.classList.remove('ok');et.textContent=txt},1800)};
+const marca=()=>{const r=document.createRange();r.selectNodeContents(pre);const s=getSelection();s.removeAllRanges();s.addRange(r);try{if(document.execCommand('copy'))ok()}catch(err){}};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(pre.innerText).then(ok,marca)}else{marca()}}});
+
+(()=>{
+const SEL=['.cover .sub','.hito-p','.alianza','.n8>div','.aviso-n','.seg4>div','.pasos3>div','.ciclo>div','.ciclo>.sello','.ext4>.sello',
+'.cols>.lista>li','.vid2>div','.aprende li','.dos>div','.dos .lista li','.remate','.flujo>*','.claves>div','.rut3>div','.kpi2>div',
+'.tabla tr:not(:first-child)','.tres-vias>div','.ej-mem>div','.mem2>*','.claves-mem li','.cc-img>*','.ideas li','.pn1>*','.fuentes li',
+'.rutina','.pn-der .sello','.cols.cv>*','.ficha>*','.crea>div','.preg6>div','.pasos-i>div','.bajar.grande','.dep6>div','.inst','.fin-frase','.mapa>.fase','.detalle','.sk3>div','.reglas li',
+'.partes','.pdx>.fila','.banda','.pie-v3 .ver','.apart','.evo>*','.rut4>div','.kpi3>div'].join(',');
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const est=new Map();
+slides.forEach(s=>{const ps=[...s.querySelectorAll(SEL)];ps.forEach(p=>p.classList.add('paso'));est.set(s,{ps,t:[],hecho:!ps.length,visto:false})});
+const fmt=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+function contar(p){[p,...p.querySelectorAll('b')].forEach(b=>{if(b.tagName!=='B'||b.dataset.c)return;const txt=b.textContent.trim();
+if(!/^\d{1,3}(\.\d{3})+$|^\d{3,}$/.test(txt))return;b.dataset.c=txt;const fin=parseInt(txt.replace(/\./g,''),10),t0=performance.now();
+const paso=now=>{const k=Math.min(1,(now-t0)/1100),v=Math.round(fin*(1-Math.pow(1-k,3)));b.textContent=fmt(v);if(k<1)requestAnimationFrame(paso);else b.textContent=txt};
+requestAnimationFrame(paso)})}
+function verTodo(s){const e=est.get(s);e.t.forEach(clearTimeout);e.t=[];e.ps.forEach(p=>{if(!p.classList.contains('visto')){p.classList.add('visto');contar(p)}});e.hecho=true}
+function animar(s){const e=est.get(s);e.t.forEach(clearTimeout);e.t=[];
+s.querySelectorAll('b[data-c]').forEach(b=>{b.textContent=b.dataset.c;delete b.dataset.c});
+e.ps.forEach(p=>p.classList.remove('visto'));e.hecho=!e.ps.length;let t=400;
+e.ps.forEach((p,k)=>{e.t.push(setTimeout(()=>{p.classList.add('visto');contar(p);if(k===e.ps.length-1)e.hecho=true},t));t+=p.matches('tr,li')?500:1000})}
+function alEntrar(s){const e=est.get(s);if(reduce||e.visto)verTodo(s);else{e.visto=true;animar(s)}}
+const obs=new MutationObserver(ms=>ms.forEach(m=>{const s=m.target,a=s.classList.contains('active');if(a&&!s._act){s._act=true;alEntrar(s)}else if(!a)s._act=false}));
+slides.forEach(s=>obs.observe(s,{attributes:true,attributeFilter:['class']}));
+const act=slides.find(s=>s.classList.contains('active'));if(act){act._act=true;alEntrar(act)}
+const pendiente=()=>{const e=est.get(slides[i]);return e&&!e.hecho};
+addEventListener('keydown',ev=>{if(['ArrowRight','PageDown',' '].includes(ev.key)&&pendiente()){ev.preventDefault();ev.stopImmediatePropagation();verTodo(slides[i])}},true);
+addEventListener('click',ev=>{const tg=ev.target;if(!pendiente())return;
+const sig=tg.closest('#next')||(tg.closest('#viewport')&&!tg.closest('.noclick')&&!tg.closest('#nav')&&ev.clientX>=innerWidth/2);
+if(sig){ev.preventDefault();ev.stopImmediatePropagation();verTodo(slides[i])}},true);
+document.querySelectorAll('.mapa').forEach(m=>{const sl=m.closest('.slide');m.querySelectorAll('.fase').forEach(b=>{b.onclick=ev=>{ev.stopPropagation();
+m.querySelectorAll('.fase').forEach(x=>x.classList.toggle('on',x===b));sl.querySelectorAll('.det').forEach(d=>{d.hidden=d.dataset.f!==b.dataset.f})}})});
+const rep=document.createElement('button');rep.id='rep';rep.title='Repetir la animación de esta diapositiva';rep.textContent='↻';
+rep.onclick=ev=>{ev.stopPropagation();animar(slides[i])};const fs=document.getElementById('fs');fs.parentNode.insertBefore(rep,fs);
+})();
+</script></body></html>
